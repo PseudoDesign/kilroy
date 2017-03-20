@@ -1,7 +1,12 @@
 import unittest
-import connections
+from connections import Connection, CLIENT_DISCORD
+import asyncio
 
 
 class TestDiscordConnection(unittest.TestCase):
-    def test_sys_init(self):
-        self.assertTrue(True)
+    @classmethod
+    def setUpClass(cls):
+        cls.connection = Connection(client=CLIENT_DISCORD)
+
+    def test_can_connect(self):
+        CONNECTION_TIMEOUT_SECONDS = 5
