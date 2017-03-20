@@ -1,4 +1,4 @@
-from client_connection import Connection
+from client_connect import Connection
 
 CLIENT_DISCORD = "discord"
 CLIENT_SLACK = "slack"
