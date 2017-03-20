@@ -1,5 +1,5 @@
 import unittest
-from connections import Connection, CLIENT_DISCORD
+from kilroy import Connection, CLIENT_DISCORD
 import asyncio
 
 
