@@ -8,7 +8,6 @@ class TestDiscordConnection(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.connection = DiscordConnection()
-        cls.connection.start_connection()
 
     def test_can_connect(self):
         async def go():
