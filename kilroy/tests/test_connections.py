@@ -28,7 +28,8 @@ class TestDiscordConnection(unittest.TestCase):
                 "Connection did not complete within timeout"
             )
             self.assertTrue(done.pop().result())
-            await self.connection.logout()
+            await self.connection.end_connection()
+
         tasks = [
             self.loop.create_task(go()),
             self.loop.create_task(self.connection.start_connection())
