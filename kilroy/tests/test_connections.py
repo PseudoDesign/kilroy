@@ -5,9 +5,11 @@ from concurrent.futures import FIRST_COMPLETED
 
 
 class TestDiscordConnection(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.connection = DiscordConnection()
+
+    def setUp(self):
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+        self.connection = DiscordConnection()
 
     def test_can_connect(self):
         async def go():
@@ -26,7 +28,9 @@ class TestDiscordConnection(unittest.TestCase):
                 "Connection did not complete within timeout"
             )
             self.assertTrue(done.pop().result())
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(go())
-        loop.close()
+            await self.connection.logout()
+        tasks = [
+            self.loop.create_task(go()),
+            self.loop.create_task(self.connection.start_connection())
+        ]
+        self.loop.run_until_complete(asyncio.wait(tasks))
