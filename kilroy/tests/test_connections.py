@@ -18,6 +18,7 @@ class TestDiscordConnection(unittest.TestCase):
     def test_send_and_receive_message(self):
         MESSAGE = "Hello Discord"
         MESSAGE_TIMEOUT_SECONDS = 5
+        MESSAGE_TIMEOUT_PET = .2
         received_message = False
 
         async def message_listener(message):
@@ -27,12 +28,14 @@ class TestDiscordConnection(unittest.TestCase):
 
         async def go():
             await self.connection.await_until_connected()
-            #self.connection.add_message_listener(message_listener)
-            #await self.connection.send_message_text(MESSAGE)
+            self.connection.add_message_listener(message_listener)
+            await self.connection.send_message_text(MESSAGE)
 
             # Spin until the message listener signals that we're done
-            #while not received_message:
-            #    await asyncio.sleep(.2)
+            elapsed = 0
+            while (not received_message) and (elapsed < MESSAGE_TIMEOUT_SECONDS):
+                elapsed += MESSAGE_TIMEOUT_PET
+                await asyncio.sleep(MESSAGE_TIMEOUT_PET)
 
             # Close the connection when we're done
             await self.connection.end_connection()

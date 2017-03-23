@@ -20,6 +20,9 @@ class DiscordConnection(discord.Client, Connection):
         discord.Client.__init__(self)
         Connection.__init__(self)
 
+    async def send_message_text(self, message_text):
+        await asyncio.sleep(.1)
+        
     async def start_connection(self):
         await self.start(self.__key)
 
