@@ -1,8 +1,12 @@
-from .. import Connection
+from .. import Connection, Message
 import discord
 import asyncio
 import yaml
 import os
+
+
+class DiscordMessage(Message):
+    pass
 
 
 class DiscordConnection(discord.Client, Connection):
@@ -20,9 +24,13 @@ class DiscordConnection(discord.Client, Connection):
         discord.Client.__init__(self)
         Connection.__init__(self)
 
+    @staticmethod
+    def get_message_class():
+        return DiscordMessage
+
     async def send_message_text(self, message_text):
         await asyncio.sleep(.1)
-        
+
     async def start_connection(self):
         await self.start(self.__key)
 

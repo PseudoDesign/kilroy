@@ -1,2 +1,2 @@
-from .client_connect import Connection
-from .discord import DiscordConnection
+from .client_connect import Connection, Message
+from .discord import DiscordConnection, DiscordMessage

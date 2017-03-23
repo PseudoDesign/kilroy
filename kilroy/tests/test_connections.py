@@ -4,12 +4,14 @@ import asyncio
 from concurrent.futures import FIRST_COMPLETED
 
 
-class TestDiscordConnection(unittest.TestCase):
+class TestConnection:
+
+    CONNECTION_CLASS = None
 
     def setUp(self):
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
-        self.connection = DiscordConnection()
+        self.connection = self.CONNECTION_CLASS()
 
     def tearDown(self):
         self.loop.close()
@@ -30,6 +32,8 @@ class TestDiscordConnection(unittest.TestCase):
             await self.connection.await_until_connected()
             self.connection.add_message_listener(message_listener)
             await self.connection.send_message_text(MESSAGE)
+
+            message = self.connection.get_message_class()
 
             # Spin until the message listener signals that we're done
             elapsed = 0
@@ -71,3 +75,6 @@ class TestDiscordConnection(unittest.TestCase):
             self.loop.create_task(self.connection.start_connection())
         ]
         self.loop.run_until_complete(asyncio.wait(tasks))
+
+class TestDiscordConnection(TestConnection, unittest.TestCase):
+    CONNECTION_CLASS = DiscordConnection
