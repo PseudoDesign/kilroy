@@ -1,15 +1,20 @@
-from .. import Connection, Message
+from .. import Connection, Message, Channel
 import discord
 import asyncio
 import yaml
 import os
 
 
-class DiscordMessage(Message):
+class DiscordChannel(Channel):
     pass
 
 
+class DiscordMessage(Message):
+    CHANNEL_CLASS = DiscordChannel
+
+
 class DiscordConnection(discord.Client, Connection):
+    MESSAGE_CLASS = DiscordMessage
 
     KEY_FILE_LOCATION = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
@@ -24,10 +29,6 @@ class DiscordConnection(discord.Client, Connection):
         discord.Client.__init__(self)
         Connection.__init__(self)
 
-    @staticmethod
-    def get_message_class():
-        return DiscordMessage
-
     async def send_message_text(self, message_text):
         await asyncio.sleep(.1)
 
@@ -35,7 +36,6 @@ class DiscordConnection(discord.Client, Connection):
         await self.start(self.__key)
 
     async def end_connection(self):
-        # await self.logout()
         await self.close()
         await self._set_connection_state(False)
         await asyncio.sleep(.5)
