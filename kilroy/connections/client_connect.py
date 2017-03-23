@@ -6,14 +6,12 @@ class Channel:
 
 
 class Message:
-    CHANNEL_CLASS = Channel
+    pass
 
-    @classmethod
-    def get_channel_class(cls):
-        return cls.CHANNEL_CLASS
 
 class Connection:
     MESSAGE_CLASS = Message
+    CHANNEL_CLASS = Channel
 
     def __init__(self, **kwargs):
         self.__is_connected = False
@@ -22,6 +20,10 @@ class Connection:
     @classmethod
     def get_message_class(cls):
         return cls.MESSAGE_CLASS
+
+    @classmethod
+    def get_channel_class(cls):
+        return cls.CHANNEL_CLASS
 
     async def _set_connection_state(self, state):
         self.__is_connected = state

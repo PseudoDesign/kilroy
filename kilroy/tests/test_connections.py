@@ -9,6 +9,7 @@ class TestConnection:
     CONNECTION_CLASS = None
     MESSAGE_CLASS = None
     CHANNEL_CLASS = None
+    TEST_CHANNEL = None
 
     def setUp(self):
         self.loop = asyncio.new_event_loop()
@@ -24,7 +25,7 @@ class TestConnection:
 
     def test_channel_class(self):
         self.assertIs(
-            self.CONNECTION_CLASS.get_message_class().get_channel_class(),
+            self.CONNECTION_CLASS.get_channel_class(),
             self.CHANNEL_CLASS
             )
 
@@ -46,7 +47,9 @@ class TestConnection:
             connection.add_message_listener(message_listener)
             await connection.send_message_text(MESSAGE)
 
-            message = connection.get_message_class()
+            message_class = connection.get_message_class()
+
+
 
             # Spin until the message listener signals that we're done
             elapsed = 0
