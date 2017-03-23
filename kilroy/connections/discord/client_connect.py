@@ -24,8 +24,9 @@ class DiscordConnection(discord.Client, Connection):
         await self.start(self.__key)
 
     async def end_connection(self):
-        await self.logout()
-        await asyncio.sleep(.1)
+        # await self.logout()
+        await self.close()
+        await asyncio.sleep(.5)
 
     async def on_ready(self):
         await self._set_connection_state(True)
