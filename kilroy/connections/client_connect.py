@@ -2,7 +2,11 @@ import asyncio
 
 
 class Channel:
-    pass
+    def __init__(self, **kwargs):
+        pass
+
+    async def send_message(self, message):
+        raise NotImplementedError()
 
 
 class Message:
@@ -18,12 +22,19 @@ class Connection:
         self.__message_listeners = []
 
     @classmethod
+    async def send_message(cls, message, **channel_kwargs):
+        await cls.get_channel(channel_kwargs).send_message(message)
+
+    @classmethod
     def get_message_class(cls):
         return cls.MESSAGE_CLASS
 
     @classmethod
     def get_channel_class(cls):
         return cls.CHANNEL_CLASS
+
+    def get_channel(self, **channel_kwargs):
+        return self.get_channel_class()(channel_kwargs)
 
     async def _set_connection_state(self, state):
         self.__is_connected = state

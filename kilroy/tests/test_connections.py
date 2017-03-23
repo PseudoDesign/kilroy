@@ -45,11 +45,8 @@ class TestConnection:
         async def go():
             await connection.await_until_connected()
             connection.add_message_listener(message_listener)
-            await connection.send_message_text(MESSAGE)
 
-            message_class = connection.get_message_class()
-
-
+            await connection.send_message(TEST_CHANNEL, MESSAGE)
 
             # Spin until the message listener signals that we're done
             elapsed = 0
