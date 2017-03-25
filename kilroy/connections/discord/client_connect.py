@@ -6,8 +6,27 @@ import os
 
 
 class DiscordChannel(Channel):
-    pass
+    def __init__(self, connection, **kwargs):
+        '''
+            kwargs:
+                channel_id - indicates a private channel or server channel
+                user_id - indicates a DM
+        '''
+        self.__channel = None
+        self.__is_dm = False
+        print("ici")
+        if kwargs.has_key("channel_id"):
+            self.__channel = connection.get_channel(kwargs["channel_id"])
+        elif kwargs.has_key("user_id"):
+            self.__channel = connection.get_user_info(kwargs["user_id"])
+            self.__is_dm = True
+        else:
+            raise ValueError()
 
+        self.__connection = connection
+
+    async def send_message(self, message):
+        await self.__connection.send_message(self.__channel, message)
 
 class DiscordMessage(Message):
     pass

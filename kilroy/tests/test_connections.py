@@ -9,7 +9,7 @@ class TestConnection:
     CONNECTION_CLASS = None
     MESSAGE_CLASS = None
     CHANNEL_CLASS = None
-    TEST_CHANNEL = None
+    TEST_CHANNEL_INFO = None
 
     def setUp(self):
         self.loop = asyncio.new_event_loop()
@@ -34,19 +34,25 @@ class TestConnection:
         MESSAGE_TIMEOUT_SECONDS = 5
         MESSAGE_TIMEOUT_PET = .2
         received_message = False
+        test_channel = None
 
         connection = self.CONNECTION_CLASS()
 
         async def message_listener(message):
             # Check if the test message came in
-            if message.text == MESSAGE:
+            if message.text == MESSAGE and self.test_channel == message.channel:
                 received_message = True
 
         async def go():
+            print("ici2")
             await connection.await_until_connected()
+            print("ici3")
             connection.add_message_listener(message_listener)
-
-            await connection.send_message(TEST_CHANNEL, MESSAGE)
+            print("ici4")
+            print(self.TEST_CHANNEL_INFO)
+            test_channel = connection.get_channel(self.TEST_CHANNEL_INFO)
+            print("ici5")
+            await test_channel.send_message(MESSAGE)
 
             # Spin until the message listener signals that we're done
             elapsed = 0
@@ -96,3 +102,10 @@ class TestDiscordConnection(TestConnection, unittest.TestCase):
     CONNECTION_CLASS = DiscordConnection
     MESSAGE_CLASS = DiscordMessage
     CHANNEL_CLASS = DiscordChannel
+    TEST_CHANNEL_INFO = {
+        "server_id":288110719428460555,
+        "channel_id":288123942722600960,
+    }
+
+    def test_send_and_receive_private_message(self):
+        pass
