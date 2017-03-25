@@ -38,6 +38,9 @@ class TestConnection:
 
         connection = self.CONNECTION_CLASS()
 
+        connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
+        print("derp")
+
         async def message_listener(message):
             # Check if the test message came in
             if message.text == MESSAGE and self.test_channel == message.channel:
@@ -50,7 +53,7 @@ class TestConnection:
             connection.add_message_listener(message_listener)
             print("ici4")
             print(self.TEST_CHANNEL_INFO)
-            test_channel = connection.get_channel(self.TEST_CHANNEL_INFO)
+            test_channel = connection.get_channel_from_kwargs(self.TEST_CHANNEL_INFO)
             print("ici5")
             await test_channel.send_message(MESSAGE)
 

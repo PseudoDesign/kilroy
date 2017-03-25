@@ -33,9 +33,9 @@ class Connection:
     def get_channel_class(cls):
         return cls.CHANNEL_CLASS
 
-    def get_channel(self, **channel_kwargs):
-        pritn("ici42")
-        return self.get_channel_class()(self, channel_kwargs)
+    def get_channel_from_kwargs(self, **kwargs):
+        print("ici42")
+        return self.get_channel_class()(self, **kwargs)
 
     async def _set_connection_state(self, state):
         self.__is_connected = state

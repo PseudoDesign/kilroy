@@ -15,9 +15,9 @@ class DiscordChannel(Channel):
         self.__channel = None
         self.__is_dm = False
         print("ici")
-        if kwargs.has_key("channel_id"):
+        if "channel_id" in kwargs:
             self.__channel = connection.get_channel(kwargs["channel_id"])
-        elif kwargs.has_key("user_id"):
+        elif "user_id" in kwargs:
             self.__channel = connection.get_user_info(kwargs["user_id"])
             self.__is_dm = True
         else:
