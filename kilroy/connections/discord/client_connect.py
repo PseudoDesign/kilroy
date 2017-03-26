@@ -13,11 +13,17 @@ class DiscordChannel(Channel):
                 user_id - indicates a DM
         '''
         self.__channel = None
+        self.__server = None
         self.__is_dm = False
-        print("ici")
-        if kwargs.has_key("channel_id"):
-            self.__channel = connection.get_channel(kwargs["channel_id"])
-        elif kwargs.has_key("user_id"):
+        if "server_id" in kwargs:
+            self.__server = connection.get_server(str(kwargs["server_id"]))
+        if "channel_id" in kwargs:
+            if self.__server is not None:
+                t = self.__server
+            else:
+                t = connection
+            self.__channel = t.get_channel(str(kwargs["channel_id"]))
+        elif "user_id" in kwargs:
             self.__channel = connection.get_user_info(kwargs["user_id"])
             self.__is_dm = True
         else:

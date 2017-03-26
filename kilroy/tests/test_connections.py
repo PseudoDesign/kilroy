@@ -44,14 +44,11 @@ class TestConnection:
                 received_message = True
 
         async def go():
-            print("ici2")
             await connection.await_until_connected()
-            print("ici3")
+
             connection.add_message_listener(message_listener)
-            print("ici4")
-            print(self.TEST_CHANNEL_INFO)
-            test_channel = connection.get_channel(self.TEST_CHANNEL_INFO)
-            print("ici5")
+
+            test_channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
             await test_channel.send_message(MESSAGE)
 
             # Spin until the message listener signals that we're done
