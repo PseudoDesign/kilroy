@@ -36,8 +36,8 @@ class DiscordChannel(Channel):
     def get_id(self):
         return self.__channel.id
 
-    async def send_message(self, connection, message):
-        await connection.send_message(self.__channel, message)
+    async def send_text(self, connection, text):
+        await connection.send_message(self.__channel, text)
 
 class DiscordMessage(Message):
     def __init__(self, message):

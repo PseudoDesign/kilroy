@@ -2,15 +2,19 @@ import asyncio
 
 
 class Channel:
-    def __init__(self, **kwargs):
-        pass
+    async def send_text(self, channel, text):
+        raise NotImplementedError()
 
-    async def send_message(self, message):
+    def get_id(self):
         raise NotImplementedError()
 
 
 class Message:
-    pass
+    def get_channel(self):
+        raise NotImplementedError()
+
+    def __str__(self):
+        raise NotImplementedError()
 
 
 class Connection:

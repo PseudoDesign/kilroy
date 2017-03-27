@@ -47,7 +47,7 @@ class TestConnection:
 
             connection.add_message_listener(message_listener)
             self.test_channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
-            await self.test_channel.send_message(connection, MESSAGE)
+            await self.test_channel.send_text(connection, MESSAGE)
 
             # Spin until the message listener signals that we're done
             elapsed = 0
