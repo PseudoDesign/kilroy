@@ -41,19 +41,23 @@ class TestConnection:
 
         async def message_listener(message):
             # Check if the test message came in
-            if str(message) == MESSAGE and self.test_channel.get_id() == message.get_channel().get_id():
+            if str(message) == MESSAGE and \
+                  self.test_channel.get_id() == message.get_channel().get_id():
                 self.received_message = True
 
         async def go():
             await connection.await_until_connected()
 
             connection.add_message_listener(message_listener)
-            self.test_channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
+            self.test_channel = connection.get_channel_from_kwargs(
+                **self.TEST_CHANNEL_INFO
+                )
             await self.test_channel.send_text(connection, MESSAGE)
 
             # Spin until the message listener signals that we're done
             elapsed = 0
-            while (not self.received_message) and (elapsed < MESSAGE_TIMEOUT_SECONDS):
+            while (not self.received_message) and \
+                    (elapsed < MESSAGE_TIMEOUT_SECONDS):
                 elapsed += MESSAGE_TIMEOUT_PET
                 await asyncio.sleep(MESSAGE_TIMEOUT_PET)
 
