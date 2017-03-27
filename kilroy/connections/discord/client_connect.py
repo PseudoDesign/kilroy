@@ -6,36 +6,52 @@ import os
 
 
 class DiscordChannel(Channel):
-    def __init__(self, connection, **kwargs):
+
+    def __init__(self, discord_channel):
+        self.__channel = discord_channel
+
+    @staticmethod
+    def from_kwargs(connection, **kwargs):
         '''
             kwargs:
                 channel_id - indicates a private channel or server channel
                 user_id - indicates a DM
         '''
-        self.__channel = None
-        self.__server = None
-        self.__is_dm = False
+        print("in")
+        server = None
         if "server_id" in kwargs:
-            self.__server = connection.get_server(str(kwargs["server_id"]))
+            print(kwargs)
+            server = connection.get_server(str(kwargs["server_id"]))
+
+        print("post-if")
         if "channel_id" in kwargs:
-            if self.__server is not None:
-                t = self.__server
+            if server is not None:
+                t = server
             else:
                 t = connection
-            self.__channel = t.get_channel(str(kwargs["channel_id"]))
+            channel = t.get_channel(str(kwargs["channel_id"]))
         elif "user_id" in kwargs:
-            self.__channel = connection.get_user_info(kwargs["user_id"])
-            self.__is_dm = True
+            channel = connection.get_user_info(kwargs["user_id"])
         else:
             raise ValueError()
 
-        self.__connection = connection
+        return DiscordChannel(channel)
 
-    async def send_message(self, message):
-        await self.__connection.send_message(self.__channel, message)
+    def get_id(self):
+        return self.__channel.id
+
+    async def send_message(self, connection, message):
+        await connection.send_message(self.__channel, message)
 
 class DiscordMessage(Message):
-    pass
+    def __init__(self, message):
+        self.__discord_message = message
+
+    def __str__(self):
+        return self.__discord_message.content
+
+    def get_channel(self):
+        return DiscordChannel(self.__discord_message.channel)
 
 
 class DiscordConnection(discord.Client, Connection):
@@ -68,3 +84,7 @@ class DiscordConnection(discord.Client, Connection):
 
     async def on_ready(self):
         await self._set_connection_state(True)
+
+    async def on_message(self, message):
+        my_message = DiscordMessage(message)
+        await self._message_handler(my_message)

@@ -34,7 +34,7 @@ class Connection:
         return cls.CHANNEL_CLASS
 
     def get_channel_from_kwargs(self, **channel_kwargs):
-        return self.get_channel_class()(self, **channel_kwargs)
+        return self.get_channel_class().from_kwargs(self, **channel_kwargs)
 
     async def _set_connection_state(self, state):
         self.__is_connected = state
