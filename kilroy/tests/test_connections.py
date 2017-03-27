@@ -33,30 +33,25 @@ class TestConnection:
         MESSAGE = "Hello Discord"
         MESSAGE_TIMEOUT_SECONDS = 5
         MESSAGE_TIMEOUT_PET = .2
-        received_message = False
+        self.received_message = False
 
         connection = self.CONNECTION_CLASS()
 
         async def message_listener(message):
             # Check if the test message came in
-            print("Message: " + str(message))
-            print("test_channel: " + str(self.test_channel.get_id()))
-            print("get_channel: " + str(message.get_channel().get_id()))
-            if str(message) == MESSAGE and self.test_channel.id == message.get_channel().id:
-                received_message = True
+            if str(message) == MESSAGE and self.test_channel.get_id() == message.get_channel().get_id():
+                self.received_message = True
 
         async def go():
             await connection.await_until_connected()
 
             connection.add_message_listener(message_listener)
-            print("1")
             self.test_channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
-            print("2")
             await self.test_channel.send_message(connection, MESSAGE)
-            print("3")
+
             # Spin until the message listener signals that we're done
             elapsed = 0
-            while (not received_message) and (elapsed < MESSAGE_TIMEOUT_SECONDS):
+            while (not self.received_message) and (elapsed < MESSAGE_TIMEOUT_SECONDS):
                 elapsed += MESSAGE_TIMEOUT_PET
                 await asyncio.sleep(MESSAGE_TIMEOUT_PET)
 
@@ -68,7 +63,7 @@ class TestConnection:
             self.loop.create_task(connection.start_connection())
         ]
         self.loop.run_until_complete(asyncio.wait(tasks))
-        self.assertTrue(received_message)
+        self.assertTrue(self.received_message)
 
     def test_can_connect(self):
 

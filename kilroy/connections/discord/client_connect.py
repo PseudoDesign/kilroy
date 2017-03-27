@@ -17,13 +17,9 @@ class DiscordChannel(Channel):
                 channel_id - indicates a private channel or server channel
                 user_id - indicates a DM
         '''
-        print("in")
         server = None
         if "server_id" in kwargs:
-            print(kwargs)
             server = connection.get_server(str(kwargs["server_id"]))
-
-        print("post-if")
         if "channel_id" in kwargs:
             if server is not None:
                 t = server
