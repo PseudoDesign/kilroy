@@ -1,5 +1,5 @@
 import unittest
-from kilroy import DiscordConnection, DiscordMessage, DiscordChannel
+from kilroy.connections import DiscordConnection, DiscordMessage, DiscordChannel
 import asyncio
 from concurrent.futures import FIRST_COMPLETED
 
@@ -98,15 +98,3 @@ class TestConnection:
             self.loop.create_task(connection.start_connection())
         ]
         self.loop.run_until_complete(asyncio.wait(tasks))
-
-class TestDiscordConnection(TestConnection, unittest.TestCase):
-    CONNECTION_CLASS = DiscordConnection
-    MESSAGE_CLASS = DiscordMessage
-    CHANNEL_CLASS = DiscordChannel
-    TEST_CHANNEL_INFO = {
-        "server_id":288110719428460555,
-        "channel_id":288123942722600960,
-    }
-
-    def test_send_and_receive_private_message(self):
-        pass
