@@ -8,6 +8,12 @@ class Channel:
     def get_id(self):
         raise NotImplementedError()
 
+    def __eq__(self, other):
+        return self.get_id() == other.get_id()
+
+    def __ne__(self, other):
+        return self.get_id() != other.get_id()
+
 
 class Message:
     def get_channel(self):

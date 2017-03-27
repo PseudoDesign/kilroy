@@ -42,7 +42,7 @@ class TestConnection:
         async def message_listener(message):
             # Check if the test message came in
             if str(message) == MESSAGE and \
-                  self.test_channel.get_id() == message.get_channel().get_id():
+                  self.test_channel == message.get_channel():
                 self.received_message = True
 
         async def go():
