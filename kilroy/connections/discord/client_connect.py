@@ -3,6 +3,7 @@ import discord
 import asyncio
 import yaml
 import os
+from kilroy.user import DiscordUser
 
 
 class DiscordChannel(Channel):
@@ -84,3 +85,9 @@ class DiscordConnection(discord.Client, Connection):
     async def on_message(self, message):
         my_message = DiscordMessage(message)
         await self._message_handler(my_message)
+
+    def get_user_info(self):
+        info = self.user
+        if info is not None:
+            return DiscordUser(info)
+        return None

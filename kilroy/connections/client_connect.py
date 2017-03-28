@@ -70,6 +70,9 @@ class Connection:
     def end_connection(self):
         raise NotImplementedError()
 
+    def get_user_info(self):
+        raise NotImplementedError()
+
     def add_message_listener(self, listener):
         if listener not in self.__message_listeners:
             self.__message_listeners += [listener]
