@@ -8,6 +8,9 @@ class Channel:
     def get_id(self):
         raise NotImplementedError()
 
+    async def get_users(self):
+        raise NotImplementedError()
+
     def __eq__(self, other):
         return self.get_id() == other.get_id()
 

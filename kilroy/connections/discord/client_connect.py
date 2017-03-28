@@ -37,6 +37,16 @@ class DiscordChannel(Channel):
     def get_id(self):
         return self.__channel.id
 
+    def get_users(self):
+        if self.__channel.is_private:
+            users = self.__channel.recipients
+        else:
+            users = self.__channel.server.members
+        retval = []
+        for user in users:
+            retval += [DiscordUser(user)]
+        return retval
+
     async def send_text(self, connection, text):
         await connection.send_message(self.__channel, text)
 
