@@ -9,6 +9,7 @@ class TestUser(ConnectionTestHandler):
     CONNECTION_CLASS = None
     TEST_USER_NAME = None
     TEST_MENTION_TEXT = None
+    TEST_CHANNEL_INFO = None
 
     def test_get_self_user_info(self):
         async def go():
@@ -31,6 +32,13 @@ class TestUser(ConnectionTestHandler):
     def test_get_channel_user_info(self):
         async def go():
             await connection.await_until_connected()
+            channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
 
 
             await connection.end_connection()
+
+        connection = self.CONNECTION_CLASS()
+        self.tasks += [
+            self.loop.create_task(go())
+        ]
+        self.run_test(connection)

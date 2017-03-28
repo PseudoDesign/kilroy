@@ -52,8 +52,6 @@ class TestConnection:
 
         connection = self.CONNECTION_CLASS()
 
-        connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
-
         async def message_listener(message):
             # Check if the test message came in
             if str(message) == MESSAGE and \
