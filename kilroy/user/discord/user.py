@@ -7,3 +7,6 @@ class DiscordUser(User):
 
     def get_name(self):
         return self.__user.name
+
+    def get_mention_text(self):
+        return self.__user.mention

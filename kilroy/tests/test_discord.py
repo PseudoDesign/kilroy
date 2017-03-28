@@ -19,3 +19,4 @@ class TestDiscordConnection(TestConnection, unittest.TestCase):
 class TestDiscordUser(TestUser, unittest.TestCase):
     CONNECTION_CLASS = DiscordConnection
     TEST_USER_NAME = "tense-bot"
+    TEST_MENTION_TEXT = "<@293209058679193601>"

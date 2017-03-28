@@ -22,6 +22,7 @@ class TestUser(ConnectionTestHandler):
 
     CONNECTION_CLASS = None
     TEST_USER_NAME = None
+    TEST_MENTION_TEXT = None
 
     def test_get_self_user_info(self):
         async def go():
@@ -29,6 +30,10 @@ class TestUser(ConnectionTestHandler):
             user_info = connection.get_user_info()
             self.assertIsNotNone(user_info)
             self.assertEqual(user_info.get_name(), self.TEST_USER_NAME)
+            self.assertEqual(
+                user_info.get_mention_text(),
+                self.TEST_MENTION_TEXT
+            )
             await connection.end_connection()
 
         connection = self.CONNECTION_CLASS()

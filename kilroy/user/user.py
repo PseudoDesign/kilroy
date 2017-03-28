@@ -4,3 +4,6 @@ class User:
 
     def get_name(self):
         raise NotImplementedError()
+
+    def get_mention_text(self):
+        raise NotImplementedError()
