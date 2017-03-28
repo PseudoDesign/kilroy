@@ -4,6 +4,21 @@ import asyncio
 from concurrent.futures import FIRST_COMPLETED
 
 
+class ConnectionTestHandler:
+    def setUp(self):
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+        self.tasks = []
+
+    def tearDown(self):
+        self.loop.close()
+        asyncio.set_event_loop(None)
+
+    def run_test(self, connection):
+        self.tasks += [self.loop.create_task(connection.start_connection())]
+        self.loop.run_until_complete(asyncio.wait(self.tasks))
+
+
 class TestConnection:
 
     CONNECTION_CLASS = None

@@ -1,21 +1,7 @@
 from kilroy.user import User
 import asyncio
 from time import sleep
-
-
-class ConnectionTestHandler:
-    def setUp(self):
-        self.loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self.loop)
-        self.tasks = []
-
-    def tearDown(self):
-        self.loop.close()
-        asyncio.set_event_loop(None)
-
-    def run_test(self, connection):
-        self.tasks += [self.loop.create_task(connection.start_connection())]
-        self.loop.run_until_complete(asyncio.wait(self.tasks))
+from test_connections import ConnectionTestHandler
 
 
 class TestUser(ConnectionTestHandler):
@@ -41,3 +27,10 @@ class TestUser(ConnectionTestHandler):
             self.loop.create_task(go())
         ]
         self.run_test(connection)
+
+    def test_get_channel_user_info(self):
+        async def go():
+            await connection.await_until_connected()
+
+
+            await connection.end_connection()
