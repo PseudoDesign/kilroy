@@ -6,12 +6,12 @@ import yaml
 class TestConfig(unittest.TestCase):
 
     EXAMPLE_CONFIG_STRING = \
-        "entry_type:\n  example_data_1: sample\n  name: MODULE_NAME\n"
+        "MODULE_NAME:\n  example_data_1: sample\n"
 
     def test_get_example_config_string(self):
         self.assertEqual(
             ConfigEntry.get_example_config_string(comment=True),
-            "# entry_type:\n#   example_data_1: sample\n#   name: MODULE_NAME\n"
+            "# MODULE_NAME:\n#   example_data_1: sample\n"
         )
         self.assertEqual(
             ConfigEntry.get_example_config_string(),
@@ -19,9 +19,9 @@ class TestConfig(unittest.TestCase):
         )
 
     def test_create_from_yaml(self):
-        Config.add_config_entry(ConfigEntry)
-        entry = Config.create_from_yaml(self.EXAMPLE_CONFIG_STRING)
-        self.assertEqual(
+        Config.add_entry(ConfigEntry)
+        entry = Config.create_entry_from_yaml(self.EXAMPLE_CONFIG_STRING)
+        self.assertIs(
             type(entry),
             ConfigEntry
         )
