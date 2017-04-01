@@ -10,9 +10,11 @@ class ConfigEntry:
         }
     }
 
-    @classmethod
-    def get_example_config_string(cls, comment=False):
-        retval = yaml.dump(cls.CONFIG_ENTRY_DATA, default_flow_style=False)
+    def get_example_config_string(self, comment=False):
+        retval = yaml.dump(self.CONFIG_ENTRY_DATA, default_flow_style=False)
         if comment:
             retval = ("# " + retval.replace("\n", "\n# "))[:-2]
         return retval
+
+class Config:
+    pass
