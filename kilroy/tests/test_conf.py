@@ -18,9 +18,10 @@ class TestConfig(unittest.TestCase):
             self.EXAMPLE_CONFIG_STRING
         )
 
-    def test_create_from_yaml(self):
+    def test_create_dict(self):
         Config.add_entry(ConfigEntry)
-        entry = Config.create_entry_from_yaml(self.EXAMPLE_CONFIG_STRING)
+        data = yaml.load(self.EXAMPLE_CONFIG_STRING)
+        entry = Config.create_entry(ConfigEntry.CONFIG_ENTRY_NAME, data)
         self.assertIs(
             type(entry),
             ConfigEntry

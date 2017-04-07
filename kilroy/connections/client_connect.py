@@ -1,4 +1,5 @@
 import asyncio
+from kilroy.conf import ConfigEntry
 
 
 class Channel:
@@ -26,9 +27,10 @@ class Message:
         raise NotImplementedError()
 
 
-class Connection:
+class Connection(ConfigEntry):
     MESSAGE_CLASS = Message
     CHANNEL_CLASS = Channel
+    CONFIG_ENTRY_NAME = None
 
     def __init__(self, **kwargs):
         self.__is_connected = False
