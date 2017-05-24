@@ -64,17 +64,21 @@ class DiscordMessage(Message):
 class DiscordConnection(discord.Client, Connection):
     MESSAGE_CLASS = DiscordMessage
     CHANNEL_CLASS = DiscordChannel
+    CONFIG_ENTRY_NAME = "discord_connection"
 
     KEY_FILE_LOCATION = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
         ".keys.yaml"
         )
 
-    def __init__(self):
-        fpt = open(self.KEY_FILE_LOCATION, 'r')
-        keys = yaml.load(fpt)
-        fpt.close()
-        self.__key = keys['client_oauth_token']
+    CONFIG_ENTRY_DATA = {
+        CONFIG_ENTRY_NAME : {
+            "client_oauth_token" : "YOUR_OAUTH_TOKEN"
+        }
+    }
+
+    def __init__(self, **kwargs):
+        self.__key = kwargs['client_oauth_token']
         discord.Client.__init__(self)
         Connection.__init__(self)
 

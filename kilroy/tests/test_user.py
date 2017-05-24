@@ -20,7 +20,7 @@ class TestUser(ConnectionTestHandler):
 
             await connection.end_connection()
 
-        connection = self.CONNECTION_CLASS()
+        connection = self.CONNECTION_CLASS(**self.connection_config_data)
         self.tasks += [
             self.loop.create_task(go())
         ]
@@ -44,7 +44,7 @@ class TestUser(ConnectionTestHandler):
                     break
             await connection.end_connection()
 
-        connection = self.CONNECTION_CLASS()
+        connection = self.CONNECTION_CLASS(**self.connection_config_data)
         self.tasks += [
             self.loop.create_task(go())
         ]

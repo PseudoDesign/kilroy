@@ -1,10 +1,29 @@
 import unittest
 from kilroy.connections import DiscordConnection, DiscordMessage, DiscordChannel
 import asyncio
+from kilroy.conf import Config
 from concurrent.futures import FIRST_COMPLETED
+import yaml
+import os
 
 
 class ConnectionTestHandler:
+    KEY_FILE_LOCATION = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        ".test_connection_config.yaml"
+        )
+
+    @classmethod
+    def setUpClass(cls):
+        try:
+            Config.add_entry(cls.CONNECTION_CLASS)
+        except ValueError:
+            pass
+        fpt = open(cls.KEY_FILE_LOCATION, 'r')
+        test_config = yaml.load(fpt)
+        fpt.close()
+        cls.connection_config_data = test_config[cls.CONNECTION_CLASS.CONFIG_ENTRY_NAME]
+
     def setUp(self):
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
@@ -19,7 +38,7 @@ class ConnectionTestHandler:
         self.loop.run_until_complete(asyncio.wait(self.tasks))
 
 
-class TestConnection:
+class TestConnection(ConnectionTestHandler):
 
     CONNECTION_CLASS = None
     MESSAGE_CLASS = None
@@ -50,7 +69,10 @@ class TestConnection:
         MESSAGE_TIMEOUT_PET = .2
         self.received_message = False
 
-        connection = self.CONNECTION_CLASS()
+        connection = Config.create_entry(
+            self.CONNECTION_CLASS.CONFIG_ENTRY_NAME,
+            self.connection_config_data
+            )
 
         async def message_listener(message):
             # Check if the test message came in
@@ -86,7 +108,7 @@ class TestConnection:
 
     def test_can_connect(self):
 
-        connection = self.CONNECTION_CLASS()
+        connection = self.CONNECTION_CLASS(**self.connection_config_data)
 
         async def go():
             CONNECTION_TIMEOUT_SECONDS = 5

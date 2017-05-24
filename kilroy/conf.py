@@ -10,7 +10,7 @@ class ConfigEntry:
         }
     }
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         pass
 
     @classmethod
@@ -22,11 +22,7 @@ class ConfigEntry:
 
     @classmethod
     def create_from_config_data(cls, data):
-        return cls.create_from_kwargs(**data[cls.CONFIG_ENTRY_NAME])
-
-    @classmethod
-    def create_from_kwargs(cls, **kwargs):
-        return ConfigEntry()
+        return cls(**data)
 
 
 class Config:
@@ -40,15 +36,13 @@ class Config:
         if entry.CONFIG_ENTRY_NAME not in cls.__entries:
             cls.__entries[entry.CONFIG_ENTRY_NAME] = entry
         else:
-            raise ValueError("Entry with key " + entry.key + " already exists")
+            raise ValueError(
+                "Entry with key " + entry.CONFIG_ENTRY_NAME + " already exists"
+                )
 
     @classmethod
-    def create_entry_from_yaml(cls, yaml_string):
-        data = yaml.load(yaml_string)
-        keys = data.keys()
-        if len(keys) == 1 and list(keys)[0] in cls.__entries:
-            return cls.__entries[list(keys)[0]].create_from_config_data(data)
-        elif len(keys):
-            raise ValueError("yaml_string was not properly formatted")
+    def create_entry(cls, name, data):
+        if name in cls.__entries:
+            return cls.__entries[name].create_from_config_data(data)
         else:
-            raise ValueError(data.key + " is not a registered entry")
+            raise ValueError(name + " is not a registered entry")
