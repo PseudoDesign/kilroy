@@ -1,5 +1,6 @@
 import yaml
 
+
 class ConfigEntry:
 
     CONFIG_ENTRY_NAME = "MODULE_NAME"
@@ -8,6 +9,9 @@ class ConfigEntry:
             "example_data_1" : "sample"
         }
     }
+
+    def __init__(self):
+        pass
 
     @classmethod
     def get_example_config_string(cls, comment=False):
@@ -23,10 +27,13 @@ class ConfigEntry:
     @classmethod
     def create_from_kwargs(cls, **kwargs):
         return ConfigEntry()
-        
+
 
 class Config:
     __entries = {}
+
+    def __init__(self):
+        pass
 
     @classmethod
     def add_entry(cls, entry):

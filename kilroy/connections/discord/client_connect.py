@@ -85,8 +85,8 @@ class DiscordConnection(discord.Client, Connection):
         await self.start(self.__key)
 
     async def end_connection(self):
-        await self.close()
         await self._set_connection_state(False)
+        await self.close()
         await asyncio.sleep(.5)
 
     async def on_ready(self):
