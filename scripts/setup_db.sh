@@ -19,13 +19,13 @@ apt-get update
 python3.5 -m pip install sqlalchemy pyaml pymysql
 
 # Install MariaDB (debian jessie)
-apt-get install -y software-properties-common
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-add-apt-repository 'deb [arch=amd64,i386] http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.1/debian jessie main'
+sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.2/ubuntu trusty main'
 apt-get update
 apt-get install -y mariadb-server
 # Generate/get our keys
-python3 ${DIR}/../evelib/Keys.py
+python3.5 ${DIR}/../kilroy/keys.py
 eval $(parse_yaml ${DIR}/../.keys.yaml "key_")
 if [ -z "$key_sql_user" ]; then
     echo "Error: unable to get sql_user key"
