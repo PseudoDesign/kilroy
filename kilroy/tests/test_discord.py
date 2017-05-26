@@ -8,8 +8,8 @@ import unittest
 class DiscordTestInfo:
     CONNECTION_CLASS = DiscordConnection
     TEST_CHANNEL_INFO = {
-        "server_id":288110719428460555,
-        "channel_id":288123942722600960,
+        "server_id": 288110719428460555,
+        "channel_id": 288123942722600960,
     }
 
 

@@ -39,5 +39,6 @@ class TestDbHelper:
 class TestUser(TestDbHelper, unittest.TestCase):
     TEST_OBJECT = User
     PARAMETERS = {
-        'name': "Test user"
+        'client': "test",
+        'unique_id': "uid"
     }
