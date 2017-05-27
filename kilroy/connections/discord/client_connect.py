@@ -50,6 +50,7 @@ class DiscordChannel(Channel):
     async def send_text(self, connection, text):
         await connection.send_message(self.__channel, text)
 
+
 class DiscordMessage(Message):
     def __init__(self, message):
         self.__discord_message = message

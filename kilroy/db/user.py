@@ -7,5 +7,5 @@ class User(SqlBase, SqlObjectInterface):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
-    client = Column(String(128), nullable=False)
-    unique_id = Column(String(128), nullable=False)
+    client_name = Column(String(128), nullable=False)
+    client_id = Column(String(128), nullable=False)
