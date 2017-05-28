@@ -1,5 +1,5 @@
 from .. import User
-from db.user import User as DbUser
+from db.db_user import DbUser as DbUser
 
 
 class DiscordUser(User):

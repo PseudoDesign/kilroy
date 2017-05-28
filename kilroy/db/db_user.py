@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String
 from .object import SqlObjectInterface
 
 
-class User(SqlBase, SqlObjectInterface):
+class DbUser(SqlBase, SqlObjectInterface):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)

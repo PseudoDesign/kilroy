@@ -1,5 +1,5 @@
 import unittest
-from kilroy.db import SqlConnection, User
+from kilroy.db import SqlConnection, DbUser
 
 
 class TestDbHelper:
@@ -37,7 +37,7 @@ class TestDbHelper:
 
 
 class TestUser(TestDbHelper, unittest.TestCase):
-    TEST_OBJECT = User
+    TEST_OBJECT = DbUser
     PARAMETERS = {
         'client_name': "test",
         'client_id': "uid"
