@@ -1,6 +1,6 @@
 import unittest
 
-from db import SqlConnection, DbUser
+from kilroy.db import SqlConnection, DbUser
 
 
 class TestDbHelper:

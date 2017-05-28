@@ -3,7 +3,7 @@ import unittest
 from test_connections import TestConnection
 from test_user import TestUser
 
-from connections import DiscordConnection, DiscordMessage, DiscordChannel
+from kilroy.connections import DiscordConnection, DiscordMessage, DiscordChannel
 
 
 class DiscordTestInfo:

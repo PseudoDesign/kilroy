@@ -1,6 +1,6 @@
 import asyncio
 
-from python.kilroy import ConfigEntry
+from kilroy.conf import ConfigEntry
 
 
 class Channel:

@@ -3,7 +3,7 @@ import os
 
 import discord
 
-from user import DiscordUser
+from kilroy.user.discord import DiscordUser
 from .. import Connection, Message, Channel
 
 
