@@ -1,4 +1,10 @@
+from db.db_user import DbUser
+
+
 class User:
+
+    CLIENT_NAME = None
+
     def __init__(self, client_user):
         raise NotImplementedError()
 
@@ -20,4 +26,5 @@ class User:
         Returns the db object for this user
         :return: kilroy.db.user.User
         """
-        raise NotImplementedError()
+        return DbUser(client_name=self.CLIENT_NAME, client_id=self.get_id())
+

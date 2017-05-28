@@ -1,8 +1,10 @@
 from .. import User
-from db.db_user import DbUser as DbUser
 
 
 class DiscordUser(User):
+
+    CLIENT_NAME = "discord"
+
     def __init__(self, discord_user):
         self.__user = discord_user
 
@@ -14,6 +16,3 @@ class DiscordUser(User):
 
     def get_id(self):
         return self.__user.id
-
-    def get_db_obj(self):
-        return DbUser(client_name='discord', client_id=self.get_id())
