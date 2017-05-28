@@ -7,6 +7,10 @@ class Channel:
         raise NotImplementedError()
 
     def get_id(self):
+        """
+        Return the client-unique ID of this channel
+        :return: str
+        """
         raise NotImplementedError()
 
     async def get_users(self):
