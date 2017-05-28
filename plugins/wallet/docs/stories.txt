@@ -1,0 +1,8 @@
+As a developer
+In order to track an individual user
+I need an interface to db_user in kilroy
+
+As a user
+In order to maintain a wallet
+I need to hold a balance of credits
+
