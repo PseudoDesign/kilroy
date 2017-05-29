@@ -2,6 +2,7 @@ from .connections import *
 from .conf import *
 from .db import *
 from .user import *
+from .plugin_api import *
 import sys
 
 

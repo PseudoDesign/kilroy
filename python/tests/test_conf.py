@@ -2,7 +2,7 @@ import unittest
 
 import yaml
 
-from python.kilroy import ConfigEntry, Config
+from kilroy import ConfigEntry, Config
 
 
 class TestConfig(unittest.TestCase):
