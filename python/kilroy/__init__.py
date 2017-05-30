@@ -6,6 +6,10 @@ from .plugin_api import *
 import sys
 
 
+class Kilroy:
+    pass
+
+
 def main():
     COMMANDS = {
     #    "make_config": (create_sample_config_file, "Create a sample config file."),
