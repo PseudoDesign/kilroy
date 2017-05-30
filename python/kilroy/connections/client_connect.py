@@ -36,6 +36,7 @@ class Connection(ConfigEntry):
     MESSAGE_CLASS = Message
     CHANNEL_CLASS = Channel
     CONFIG_ENTRY_NAME = None
+    CLIENT_NAME = None
 
     def __init__(self, **kwargs):
         self.__is_connected = False

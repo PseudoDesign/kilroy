@@ -4,10 +4,28 @@ from .db import *
 from .user import *
 from .plugin_api import *
 import sys
+import yaml
 
 
 class Kilroy:
-    pass
+
+    AVAILABLE_CONNECTIONS = [
+        DiscordConnection,
+    ]
+
+    def __init__(self, conf_file=None):
+        """
+        A chatbot plugin API for multiple chat services.
+        :param conf_file: File path of a config .yaml file
+        """
+        available_connections = {}
+        for a in self.AVAILABLE_CONNECTIONS:
+            available_connections[a.CLIENT_NAME] = a
+        fpt = open(conf_file, 'r')
+        data = yaml.load(fpt)
+        fpt.close()
+        for c in data['connections']:
+            available_connections[c.]
 
 
 def main():
