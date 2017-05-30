@@ -1,6 +1,7 @@
 import unittest
 import os
 from kilroy import Kilroy
+from kilroy import DiscordConnection, HelloKilroy
 
 
 class TestKilroy(unittest.TestCase):
@@ -10,19 +11,10 @@ class TestKilroy(unittest.TestCase):
         )
 
     def test_create_from_config(self):
-        TESTED_CONNECTIONS = [
-            "discord"
-        ]
-        TESTED_PLUGINS = [
-            "test_plugin"
-        ]
+        TESTED_CONNECTION = DiscordConnection
+        TESTED_PLUGIN = HelloKilroy
 
         k = Kilroy(self.CONFIG_FILE)
-        self.assertEqual(len(TESTED_CONNECTIONS), len(k.connections))
-        self.assertEqual(len(TESTED_PLUGINS), len(k.plugins))
-        for c in TESTED_CONNECTIONS:
-            self.assertIn(c, k.connections)
-        for p in TESTED_PLUGINS:
-            self.assertIn(p, k.plugins)
-
+        self.assertIs(TESTED_CONNECTION, k.connections[0].__class__)
+        self.assertIs(TESTED_PLUGIN, k.plugins[0].__class__)
 
