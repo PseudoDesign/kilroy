@@ -52,6 +52,11 @@ class Kilroy:
             self.load_plugin(self.available_plugins[p['name']](**p))
 
     def load_plugin(self, plugin):
+        """
+        
+        :param plugin:
+        :return:
+        """
         with self.__plugin_lock:
             if plugin in self.plugins:
                 return None
