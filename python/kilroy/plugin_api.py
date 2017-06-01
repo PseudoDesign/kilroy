@@ -13,6 +13,9 @@ class PluginApi:
         if name != self.PLUGIN_NAME:
             raise AttributeError("Attempting to load an invalid plugin")
 
+    def is_handled(self, message, connection):
+        return True
+
 
 class PluginCommand:
     # The name of this command
@@ -28,3 +31,15 @@ class HelloKilroy(PluginApi):
     def __init__(self, name, **kwargs):
         super().__init__(name, **kwargs)
 
+    def command_handler(self, message, connection):
+        pass
+
+
+class TestPlugin(PluginApi):
+    PLUGIN_NAME = "test_plugin"
+
+    def __init__(self):
+        self.is_called = False
+
+    def command_handler(self, message, connection):
+        self.is_called = True
