@@ -47,8 +47,8 @@ class Kilroy:
 
     async def _message_handler(self, message, conn):
         for p in self.plugins:
-            if p.is_handled(message, conn):
-                p.command_handler(message, conn)
+            if p.is_handled(str(message)):
+                await p.command_handler(message, conn)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks

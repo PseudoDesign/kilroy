@@ -13,7 +13,13 @@ class PluginApi:
         if name != self.PLUGIN_NAME:
             raise AttributeError("Attempting to load an invalid plugin")
 
-    def is_handled(self, message, connection):
+    def is_handled(self, message):
+        """
+        Determines if the message string is handled by this plugin
+        :param message: The message to be checked
+        :type message: str
+        :return: True if handled, else false
+        """
         return True
 
 
@@ -31,7 +37,7 @@ class HelloKilroy(PluginApi):
     def __init__(self, name, **kwargs):
         super().__init__(name, **kwargs)
 
-    def command_handler(self, message, connection):
+    async def command_handler(self, message, connection):
         pass
 
 
@@ -41,5 +47,5 @@ class TestPlugin(PluginApi):
     def __init__(self):
         self.is_called = False
 
-    def command_handler(self, message, connection):
+    async def command_handler(self, message, connection):
         self.is_called = True
