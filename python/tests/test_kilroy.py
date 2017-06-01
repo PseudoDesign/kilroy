@@ -14,11 +14,11 @@ class TestKilroy(unittest.TestCase):
     TESTED_CONNECTION = DiscordConnection
     TESTED_PLUGIN = HelloKilroy
 
-    def test_create_from_config(self):
-        k = Kilroy(self.CONFIG_FILE)
-        self.assertIs(self.TESTED_CONNECTION, k.connections[0].__class__)
-        self.assertIs(self.TESTED_PLUGIN, k.plugins[0].__class__)
-        k.unload()
+    # def test_create_from_config(self):
+    #    k = Kilroy(self.CONFIG_FILE)
+    #    self.assertIs(self.TESTED_CONNECTION, k.connections[0].__class__)
+    #    self.assertIs(self.TESTED_PLUGIN, k.plugins[0].__class__)
+    #    k.unload()
 
     def test_load_plugin(self):
 

@@ -14,14 +14,14 @@ class Kilroy:
         HelloKilroy,
     ]
 
-    loop = asyncio.new_event_loop()
+
 
     def __init__(self, conf_file=None):
         """
         A chatbot plugin API for multiple chat services.
         :param conf_file: File path of a config .yaml file
         """
-
+        self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
         self.__plugin_lock = Lock()
         self.available_connections = {}
