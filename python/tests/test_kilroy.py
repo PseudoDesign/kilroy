@@ -1,6 +1,7 @@
 import unittest
 import os
 from kilroy import Kilroy
+import asyncio
 from kilroy import DiscordConnection, HelloKilroy
 
 
@@ -9,6 +10,14 @@ class TestKilroy(unittest.TestCase):
         os.path.dirname(os.path.abspath(__file__)),
         ".test_kilroy_config.yaml"
         )
+
+    def setUp(self):
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
+
+    def tearDown(self):
+        self.loop.close()
+        asyncio.set_event_loop(None)
 
     def test_create_from_config(self):
         TESTED_CONNECTION = DiscordConnection

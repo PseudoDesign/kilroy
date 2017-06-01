@@ -1,7 +1,6 @@
-from threading import Lock
 from . import *
 import yaml
-from functools import partial
+from threading import Lock
 
 
 class Kilroy:
@@ -34,11 +33,15 @@ class Kilroy:
             fpt.close()
 
             for c in data['connections']:
-                connection = self.available_connections[c['client']](**c)
-                self.connections += [connection]
+                conn = self.available_connections[c['client']](**c)
+                conn.add_message_listener(self.message_handler)
+                self.connections += [conn]
 
             for p in data['plugins']:
                 self.load_plugin(self.available_plugins[p['name']](**p))
+
+    def message_handler(self, message, conn):
+        pass
 
     def load_plugin(self, plugin):
         """
