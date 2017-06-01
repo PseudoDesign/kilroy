@@ -70,7 +70,7 @@ class Connection(ConfigEntry):
 
     async def _message_handler(self, message):
         for listener in self.__message_listeners:
-            await listener(message)
+            await listener(message, self)
 
     async def send_message_text(self, message_text):
         raise NotImplementedError()

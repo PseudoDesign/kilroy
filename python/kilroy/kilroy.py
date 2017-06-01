@@ -35,7 +35,6 @@ class Kilroy:
 
             for c in data['connections']:
                 connection = self.available_connections[c['client']](**c)
-                #connection.add_message_listener()
                 self.connections += [connection]
 
             for p in data['plugins']:

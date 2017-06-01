@@ -73,7 +73,7 @@ class TestConnection(ConnectionTestHandler):
             self.connection_config_data
             )
 
-        async def message_listener(message):
+        async def message_listener(message, connection):
             # Check if the test message came in
             if str(message) == MESSAGE and \
                   self.test_channel == message.get_channel():
