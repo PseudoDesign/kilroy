@@ -8,17 +8,6 @@ import yaml
 from threading import Lock
 
 
-class HelloKilroy(PluginApi):
-    """
-    An example plugin for Kilroy
-    """
-    PLUGIN_NAME = "hello_kilroy"
-
-    def __init__(self, name):
-        if name != self.PLUGIN_NAME:
-            raise AttributeError("Attempting to load an invalid plugin")
-
-
 class Kilroy:
 
     __AVAILABLE_CONNECTIONS = [
@@ -41,20 +30,23 @@ class Kilroy:
         self.available_plugins = {}
         for a in self.__AVAILABLE_PLUGINS:
             self.available_plugins[a.PLUGIN_NAME] = a
-        fpt = open(conf_file, 'r')
-        data = yaml.load(fpt)
-        fpt.close()
         self.connections = []
-        for c in data['connections']:
-            self.connections += [self.available_connections[c['client']](**c)]
         self.plugins = []
-        for p in data['plugins']:
-            self.load_plugin(self.available_plugins[p['name']](**p))
+        if conf_file is not None:
+            fpt = open(conf_file, 'r')
+            data = yaml.load(fpt)
+            fpt.close()
+
+            for c in data['connections']:
+                self.connections += [self.available_connections[c['client']](**c)]
+
+            for p in data['plugins']:
+                self.load_plugin(self.available_plugins[p['name']](**p))
 
     def load_plugin(self, plugin):
         """
-        
-        :param plugin:
+        :param plugin: A plugin class to install.
+        :type plugin: PluginApi
         :return:
         """
         with self.__plugin_lock:

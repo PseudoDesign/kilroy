@@ -1,12 +1,12 @@
 from kilroy.plugin_api import PluginApi
+import unittest
 
 
-class TestPluginApi:
-    TEST_PLUGIN_NAME = "test"
+class TestHelloKilroy(unittest.TestCase):
 
-    class PluginApiTester(PluginApi):
+    def test_enter_command(self):
+        # "!k.hello_kilroy hello kilroy"
+        # test_command = "!" +
         pass
 
-    def test_plugin_registration(self):
-        pass
 
