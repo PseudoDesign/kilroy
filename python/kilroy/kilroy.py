@@ -14,7 +14,7 @@ class Kilroy:
         HelloKilroy,
     ]
 
-
+    APP_PREFIX = "!k."
 
     def __init__(self, conf_file=None):
         """
@@ -46,9 +46,11 @@ class Kilroy:
                 self.load_plugin(self.available_plugins[p['name']](**p))
 
     async def _message_handler(self, message, conn):
-        for p in self.plugins:
-            if p.is_handled(str(message)):
-                await p.command_handler(message, conn)
+        if str(message).startswith(self.APP_PREFIX):
+            command = str(message)[len(self.APP_PREFIX):]
+            for p in self.plugins:
+                if p.is_handled(command):
+                    await p.command_handler(message, conn)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks

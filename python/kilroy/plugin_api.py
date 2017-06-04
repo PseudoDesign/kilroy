@@ -16,11 +16,13 @@ class PluginApi:
     def is_handled(self, message):
         """
         Determines if the message string is handled by this plugin
-        :param message: The message to be checked
+        :param message: The message to be checked with the kilry prefix stripped
         :type message: str
         :return: True if handled, else false
         """
-        return True
+        if message.split(" ")[0] == self.PLUGIN_NAME:
+            return True
+        return False
 
 
 class PluginCommand:
