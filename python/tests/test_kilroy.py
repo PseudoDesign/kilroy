@@ -27,11 +27,11 @@ class TestKilroy(unittest.TestCase):
             test_channel = k.connections[0].get_channel_from_kwargs(server_id=288110719428460555,
                                                                     channel_id=288123942722600960)
             await test_channel.send_text(k.connections[0], "!k.test_plugin herp derp")
-            await asyncio.sleep(5)
+            await asyncio.sleep(3)
             await k.end_connections()
 
         k = Kilroy(self.CONFIG_FILE)
-        t = TestPlugin()
+        t = TestPlugin("test_plugin")
         k.load_plugin(t)
         tasks = [
             k.loop.create_task(go()),
@@ -40,6 +40,23 @@ class TestKilroy(unittest.TestCase):
         self.assertTrue(t.is_called)
         k.unload()
 
+    def test_plugin_command(self):
+        TEST_COMMAND_NAME = "test_command"
 
+        async def go():
+            await k.connections[0].await_until_connected()
+            test_channel = k.connections[0].get_channel_from_kwargs(server_id=288110719428460555,
+                                                                    channel_id=288123942722600960)
+            await test_channel.send_text(k.connections[0], "!k.test_plugin test_command derp")
+            await asyncio.sleep(3)
+            await k.end_connections()
 
-
+        k = Kilroy(self.CONFIG_FILE)
+        t = TestPlugin("test_plugin")
+        k.load_plugin(t)
+        tasks = [
+            k.loop.create_task(go()),
+        ]
+        k.start_connections(tasks)
+        self.assertTrue(t._command_dict[TEST_COMMAND_NAME].IS_CALLED)
+        k.unload()
