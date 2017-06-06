@@ -1,9 +1,9 @@
 from kilroy.db import SqlBase
 from kilroy.db.object import SqlObjectInterface
-from kilroy.db.db_user import DbUser
+from sqlalchemy import Column, Integer, ForeignKey
 
 
-class Balance(SqlBase, SqlObjectInterface):
+class UserBalance(SqlBase, SqlObjectInterface):
     __tablename__ = "wallet_balance"
 
-    
+    user = Column(Integer, ForeignKey('user.id'), primary_key=True)

@@ -1,6 +1,6 @@
 import unittest
 from plugins import wallet
-from kilroy.db.db_user import DbUser
+from kilroy.db.user import DbUser
 from tests.test_db import TestDbConnection
 
 

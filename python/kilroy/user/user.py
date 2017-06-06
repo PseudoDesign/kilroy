@@ -1,4 +1,4 @@
-from ..db.db_user import DbUser
+from ..db.user import DbUser
 
 
 class User:
