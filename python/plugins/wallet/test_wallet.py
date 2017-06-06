@@ -14,6 +14,6 @@ class TestWallet(TestDbConnection, unittest.TestCase):
         balance = wallet.get_balance(user, self._connection.session)
         self.assertEqual(0, balance)
         user = DbUser(id=self.TEST_USER_ID_2)
-        wallet.set_balance(user, self._connection.session, 5)
+        wallet._set_balance(user, self._connection.session, 5)
         balance = wallet.get_balance(user, self._connection.session)
         self.assertEqual(5, balance)
