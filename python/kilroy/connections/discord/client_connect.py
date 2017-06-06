@@ -66,7 +66,7 @@ class DiscordMessage(Message):
 class DiscordConnection(discord.Client, Connection):
     MESSAGE_CLASS = DiscordMessage
     CHANNEL_CLASS = DiscordChannel
-    CONFIG_ENTRY_NAME = "discord_connection"
+    CONFIG_ENTRY_NAME = "discord"
     CLIENT_NAME = "discord"
 
     KEY_FILE_LOCATION = os.path.join(

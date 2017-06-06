@@ -3,16 +3,23 @@ import unittest
 from kilroy.db import SqlConnection, DbUser
 
 
-class TestDbHelper:
+class TestDbConnection:
+
     DB_LOCATION = 'sqlite:///:memory:'
-    PARAMETERS = {}
-    TEST_OBJECT = None
     _connection = None
 
     def setUp(self):
         self._connection = SqlConnection(self.DB_LOCATION)
         self._connection.create_tables()
         self._connection.start_connection()
+
+    def tearDown(self):
+        self._connection.close_connection()
+
+
+class TestDbHelper(TestDbConnection):
+    PARAMETERS = {}
+    TEST_OBJECT = None
 
     def test_table_creation(self):
         """Verify our tablename exists in the database"""
