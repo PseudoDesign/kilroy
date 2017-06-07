@@ -11,20 +11,20 @@ class TestWallet(TestDbConnection, unittest.TestCase):
     def test_get_and_set_balance(self):
         # Should be 0 by default since the user didn't exist before now
         user = DbUser(id=self.TEST_USER_ID)
-        balance = wallet.get_balance(user, self._connection.session)
+        balance = wallet.ops.get_balance(self._connection.session, user)
         self.assertEqual(0, balance)
         user = DbUser(id=self.TEST_USER_ID_2)
-        wallet._set_balance(user, self._connection.session, 5)
-        balance = wallet.get_balance(user, self._connection.session)
+        wallet.ops.set_balance(self._connection.session, user, 5)
+        balance = wallet.ops.get_balance(self._connection.session, user)
         self.assertEqual(5, balance)
 
     def test_transactions(self):
         user_1 = DbUser(id=self.TEST_USER_ID)
         user_2 = DbUser(id=self.TEST_USER_ID_2)
 
-        wallet._set_balance(user_1, self._connection.session, 5)
-        wallet._set_balance(user_2, self._connection.session, 5)
+        wallet.ops.set_balance(self._connection.session, user_1, 5)
+        wallet.ops.set_balance(self._connection.session, user_2, 5)
 
-        wallet.send_credits(user_1, user_2, 2)
-        self.assertEqual(wallet.get_balance(user_1, self._connection.session), 3)
-        self.assertEqual(wallet.get_balance(user_2, self._connection.session), 7)
+        wallet.ops.send_credits(self._connection.session, user_1, user_2, 2)
+        self.assertEqual(wallet.ops.get_balance(self._connection.session, user_1), 3)
+        self.assertEqual(wallet.ops.get_balance(self._connection.session, user_2), 7)
