@@ -38,7 +38,7 @@ class PluginApi:
         """
         command = str(message).split(" ")[1]
         if command in self._command_dict:
-            self._command_dict[command].execute_command(message, connection)
+            await self._command_dict[command].execute_command(message, connection)
 
 
 class PluginCommand:
@@ -46,7 +46,7 @@ class PluginCommand:
     COMMAND_NAME = None
 
     @classmethod
-    def execute_command(cls, message, connection):
+    async def execute_command(cls, message, connection):
         raise NotImplementedError()
 
 
@@ -55,7 +55,7 @@ class TestCommand:
     IS_CALLED = False
 
     @classmethod
-    def execute_command(cls, message, connection):
+    async def execute_command(cls, message, connection):
         cls.IS_CALLED = True
 
 
