@@ -34,14 +34,12 @@ def send_credits(db_session, source_db_user, destination_db_user, value):
     """
     s = _get_or_create_balance(db_session, source_db_user)
     d = _get_or_create_balance(db_session, destination_db_user)
+    if s.balance - value < 0:
+        raise ValueError("Source user does not have enough credits")
+    set_balance(db_session, source_db_user, s.balance - value)
+    set_balance(db_session, destination_db_user, d.balance + value)
 
 
 def get_balance(db_session, db_user):
-    """
-    Returns the user's current credit balance.
-    :param db_user: Get this user's credit balance
-    :type db_user: kilroy.DbUser
-    :param db_session:
-    :return: BigInteger -- The user's credit balance
-    """
+
     return _get_or_create_balance(db_session, db_user).balance
