@@ -1,7 +1,10 @@
 from asyncio import Lock
 from .ops import *
+from kilroy.plugin_api import PluginApi, PluginCommand
 
-wallet_lock = Lock()
+__wallet_lock = Lock()
+
+plugin_name = "wallet"
 
 async def get_balance(db_session, db_user):
     """
@@ -11,19 +14,30 @@ async def get_balance(db_session, db_user):
     :param db_session:
     :return: BigInteger -- The user's credit balance
     """
-    with await wallet_lock:
-        return ops.get_balance(db_session, db_session)
+    with await __wallet_lock:
+        return ops.get_balance(db_session, db_user)
 
 
 async def send_credits(db_session, source_db_user, destination_db_user, value):
     """
     Transfer credits from one user to another.  Raises ValueError if the operation can't be completed.
+    :param db_session:
     :param source_db_user:
     :type source_db_user: kilroy.DbUser
     :param destination_db_user:
     :type destination_db_user: kilroy.DbUser
     :param value: the number of credits to transfer
     """
-    with await wallet_lock:
+    with await __wallet_lock:
         return ops.send_credits(db_session, source_db_user, destination_db_user, value)
 
+
+class KilroyPlugin(PluginApi):
+    PLUGIN_NAME = plugin_name
+
+    class GetBalance(PluginCommand):
+        COMMAND_NAME = 'balance'
+
+        @classmethod
+        def execute_command(cls, message, connection):
+            pass

@@ -28,3 +28,8 @@ class TestWallet(TestDbConnection, unittest.TestCase):
         wallet.ops.send_credits(self._connection.session, user_1, user_2, 2)
         self.assertEqual(wallet.ops.get_balance(self._connection.session, user_1), 3)
         self.assertEqual(wallet.ops.get_balance(self._connection.session, user_2), 7)
+
+        wallet.ops.set_balance(self._connection.session, user_1, 5)
+        wallet.ops.set_balance(self._connection.session, user_2, 5)
+        with self.assertRaises(ValueError):
+            wallet.ops.send_credits(self._connection.session, user_1, user_2, 6)

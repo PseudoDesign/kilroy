@@ -41,5 +41,4 @@ def send_credits(db_session, source_db_user, destination_db_user, value):
 
 
 def get_balance(db_session, db_user):
-
     return _get_or_create_balance(db_session, db_user).balance
