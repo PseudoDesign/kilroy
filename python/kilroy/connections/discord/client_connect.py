@@ -62,6 +62,9 @@ class DiscordMessage(Message):
     def get_channel(self):
         return DiscordChannel(self.__discord_message.channel)
 
+    def get_author(self):
+        return DiscordUser(self.__discord_message.author)
+
 
 class DiscordConnection(discord.Client, Connection):
     MESSAGE_CLASS = DiscordMessage

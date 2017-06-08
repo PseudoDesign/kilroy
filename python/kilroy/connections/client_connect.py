@@ -28,6 +28,13 @@ class Message:
     def get_channel(self):
         raise NotImplementedError()
 
+    def get_author(self):
+        """
+        Returns the User that wrote this message
+        :return: kilroy.User
+        """
+        raise NotImplementedError()
+
     def __str__(self):
         raise NotImplementedError()
 

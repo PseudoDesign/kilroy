@@ -39,5 +39,5 @@ class KilroyPlugin(PluginApi):
         COMMAND_NAME = 'balance'
 
         @classmethod
-        async def execute_command(cls, message, connection, db_connection):
-            pass
+        async def execute_command(cls, message, connection, db_session):
+            return await get_balance(db_session, message.get_author().get_db_obj())
