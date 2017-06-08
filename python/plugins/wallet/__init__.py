@@ -32,12 +32,16 @@ async def send_credits(db_session, source_db_user, destination_db_user, value):
         return ops.send_credits(db_session, source_db_user, destination_db_user, value)
 
 
+class GetBalance(PluginCommand):
+    COMMAND_NAME = 'balance'
+
+    @classmethod
+    async def execute_command(cls, message, connection, db_session):
+        return await get_balance(db_session, message.get_author().get_db_obj())
+
+
 class KilroyPlugin(PluginApi):
     PLUGIN_NAME = plugin_name
-
-    class GetBalance(PluginCommand):
-        COMMAND_NAME = 'balance'
-
-        @classmethod
-        async def execute_command(cls, message, connection, db_session):
-            return await get_balance(db_session, message.get_author().get_db_obj())
+    COMMANDS = [
+        GetBalance,
+    ]
