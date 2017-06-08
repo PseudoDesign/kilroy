@@ -50,7 +50,7 @@ class Kilroy:
             command = str(message)[len(self.APP_PREFIX):]
             for p in self.plugins:
                 if p.is_handled(command):
-                    await p.message_handler(message, conn)
+                    await p.message_handler(message, conn, None)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks

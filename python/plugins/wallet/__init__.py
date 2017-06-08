@@ -39,5 +39,5 @@ class KilroyPlugin(PluginApi):
         COMMAND_NAME = 'balance'
 
         @classmethod
-        async def execute_command(cls, message, connection):
+        async def execute_command(cls, message, connection, db_connection):
             pass

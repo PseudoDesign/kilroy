@@ -27,7 +27,7 @@ class PluginApi:
             return True
         return False
 
-    async def message_handler(self, message, connection):
+    async def message_handler(self, message, connection, db_connection):
         """
         Handles messages passed to this module.  By default, it will parse/call PluginCommands
         attached to this module.
@@ -35,10 +35,12 @@ class PluginApi:
         :type message: Message
         :param connection: The connection that generated this message.
         :type connection: Connection
+        :param db_connection:
+        :type db_connection: kilroy.SqlConnection
         """
         command = str(message).split(" ")[1]
         if command in self._command_dict:
-            await self._command_dict[command].execute_command(message, connection)
+            await self._command_dict[command].execute_command(message, connection, db_connection)
 
 
 class PluginCommand:
@@ -46,7 +48,7 @@ class PluginCommand:
     COMMAND_NAME = None
 
     @classmethod
-    async def execute_command(cls, message, connection):
+    async def execute_command(cls, message, connection, db_connection):
         raise NotImplementedError()
 
 
@@ -55,7 +57,7 @@ class TestCommand:
     IS_CALLED = False
 
     @classmethod
-    async def execute_command(cls, message, connection):
+    async def execute_command(cls, message, connection, db_connection):
         cls.IS_CALLED = True
 
 
@@ -68,7 +70,7 @@ class HelloKilroy(PluginApi):
     def __init__(self, name, **kwargs):
         super().__init__(name, **kwargs)
 
-    async def message_handler(self, message, connection):
+    async def message_handler(self, message, connection, db_connection):
         pass
 
 
@@ -82,6 +84,6 @@ class TestPlugin(PluginApi):
         super().__init__(name)
         self.is_called = False
 
-    async def message_handler(self, message, connection):
+    async def message_handler(self, message, connection, db_connection):
         self.is_called = True
-        await super().message_handler(message, connection)
+        await super().message_handler(message, connection, db_connection)
