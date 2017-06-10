@@ -1,10 +1,11 @@
-from . import DiscordConnection, HelloKilroy
+from . import DiscordConnection, HelloKilroy, SqlConnection
 import yaml
 from threading import Lock
 import asyncio
 
 
 class Kilroy:
+    DB_LOCATION = 'sqlite:///:memory:'
 
     __AVAILABLE_CONNECTIONS = [
         DiscordConnection,
@@ -30,12 +31,21 @@ class Kilroy:
         self.available_plugins = {}
         for a in self.__AVAILABLE_PLUGINS:
             self.available_plugins[a.PLUGIN_NAME] = a
+
         self.connections = []
         self.plugins = []
+        self.db = None
+
         if conf_file is not None:
             fpt = open(conf_file, 'r')
             data = yaml.load(fpt)
             fpt.close()
+
+            if 'sql_connection' in data:
+                db_info = data['sql_connection']
+                self.db = SqlConnection(db_info)
+                self.db.create_tables()
+                self.db.start_connection()
 
             for c in data['connections']:
                 conn = self.available_connections[c['client']](**c)
@@ -45,12 +55,17 @@ class Kilroy:
             for p in data['plugins']:
                 self.load_plugin(self.available_plugins[p['name']](**p))
 
+        if self.db is None:
+            self.db = SqlConnection(self.DB_LOCATION)
+            self.db.create_tables()
+            self.db.start_connection()
+
     async def _message_handler(self, message, conn):
         if str(message).startswith(self.APP_PREFIX):
             command = str(message)[len(self.APP_PREFIX):]
             for p in self.plugins:
                 if p.is_handled(command):
-                    await p.message_handler(message, conn, None)
+                    await p.message_handler(message, conn, self.db)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks
