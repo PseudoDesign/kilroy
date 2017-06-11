@@ -37,7 +37,9 @@ class GetBalance(PluginCommand):
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
-        return await get_balance(db_session, message.get_author().get_db_obj())
+        balance = await get_balance(db_session, message.get_author().get_db_obj(db_session))
+        reply = + "{} has a balance of {}₡".format(str(message.get_author().get_id()), str(balance))
+        await message.get_channel().send_text(connection, reply)
 
 
 class KilroyPlugin(PluginApi):

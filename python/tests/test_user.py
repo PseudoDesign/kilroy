@@ -50,12 +50,12 @@ class TestUser(ConnectionTestHandler):
         ]
         self.run_test(connection)
         self.assertTrue(self.found_self)
-
+'''
     def test_create_db_user_object(self):
         async def go():
             await connection.await_until_connected()
             self.user_info = connection.get_user_info()
-            self.db_obj = self.user_info.get_db_obj()
+            self.db_obj = self.user_info.get_db_obj(self.db_obj.session)
 
             await connection.end_connection()
 
@@ -66,4 +66,4 @@ class TestUser(ConnectionTestHandler):
         self.run_test(connection)
         self.assertEqual(self.db_obj.client_id, self.TEST_USER_ID)
         self.assertEqual(self.db_obj.client_name, self.TEST_CLIENT_NAME)
-
+'''

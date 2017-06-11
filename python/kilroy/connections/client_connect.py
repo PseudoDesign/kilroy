@@ -4,7 +4,7 @@ from kilroy.conf import ConfigEntry
 
 
 class Channel:
-    async def send_text(self, channel, text):
+    async def send_text(self, connection, text):
         raise NotImplementedError()
 
     def get_id(self):

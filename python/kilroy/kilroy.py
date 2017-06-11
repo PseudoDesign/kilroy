@@ -3,6 +3,8 @@ import yaml
 from threading import Lock
 import asyncio
 
+from plugins.wallet import KilroyPlugin as Wallet
+
 
 class Kilroy:
     DB_LOCATION = 'sqlite:///:memory:'
@@ -13,6 +15,7 @@ class Kilroy:
 
     __AVAILABLE_PLUGINS = [
         HelloKilroy,
+        Wallet
     ]
 
     APP_PREFIX = "!k."
@@ -62,10 +65,11 @@ class Kilroy:
 
     async def _message_handler(self, message, conn):
         if str(message).startswith(self.APP_PREFIX):
+            print("Message: " + str(message))
             command = str(message)[len(self.APP_PREFIX):]
             for p in self.plugins:
                 if p.is_handled(command):
-                    await p.message_handler(message, conn, self.db)
+                    await p.message_handler(message, conn, self.db.session)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks

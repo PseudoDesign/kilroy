@@ -21,10 +21,14 @@ class User:
         """
         raise NotImplementedError()
 
-    def get_db_obj(self):
+    def get_db_obj(self, db_session):
         """
         Returns the db object for this user
         :return: kilroy.db.user.User
         """
-        return DbUser(client_name=self.CLIENT_NAME, client_id=self.get_id())
+        ret = DbUser.get_from_db_by_kwargs(client_name=self.CLIENT_NAME, client_id=self.get_id())
+        if ret is not None:
+            return ret
+        ret = DbUser(client_name=self.CLIENT_NAME, client_id=self.get_id())
+        ret.write_to_db()
 
