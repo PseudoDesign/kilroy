@@ -38,7 +38,7 @@ class GetBalance(PluginCommand):
     @classmethod
     async def execute_command(cls, message, connection, db_session):
         balance = await get_balance(db_session, message.get_author().get_db_obj(db_session))
-        reply = + "{} has a balance of {}₡".format(str(message.get_author().get_id()), str(balance))
+        reply = "{} has a balance of {}₡".format(message.get_author().get_mention_text(), str(balance))
         await message.get_channel().send_text(connection, reply)
 
 

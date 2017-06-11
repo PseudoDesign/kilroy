@@ -55,7 +55,7 @@ class TestUser(ConnectionTestHandler):
         async def go():
             await connection.await_until_connected()
             self.user_info = connection.get_user_info()
-            self.db_obj = self.user_info.get_db_obj(self.db_obj.session)
+            self.db_obj = self.user_info.get_db_obj()
 
             await connection.end_connection()
 

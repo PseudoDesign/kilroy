@@ -26,9 +26,10 @@ class User:
         Returns the db object for this user
         :return: kilroy.db.user.User
         """
-        ret = DbUser.get_from_db_by_kwargs(client_name=self.CLIENT_NAME, client_id=self.get_id())
+        ret = DbUser.get_from_db_by_kwargs(db_session, client_name=self.CLIENT_NAME, client_id=self.get_id())
         if ret is not None:
             return ret
         ret = DbUser(client_name=self.CLIENT_NAME, client_id=self.get_id())
-        ret.write_to_db()
+        ret.write_to_db(db_session)
+        return ret
 
