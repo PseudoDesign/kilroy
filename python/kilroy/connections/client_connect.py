@@ -17,6 +17,13 @@ class Channel:
     async def get_users(self):
         raise NotImplementedError()
 
+    async def find_user_by_mention_text(self, text):
+        users = await self.get_users()
+        for u in users:
+            if u.get_mention_text() == text:
+                return u
+        return None
+
     def __eq__(self, other):
         return self.get_id() == other.get_id()
 

@@ -38,7 +38,7 @@ class DiscordChannel(Channel):
     def get_id(self):
         return self.__channel.id
 
-    def get_users(self):
+    async def get_users(self):
         if self.__channel.is_private:
             users = self.__channel.recipients
         else:

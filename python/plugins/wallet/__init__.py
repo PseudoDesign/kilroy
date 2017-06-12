@@ -37,10 +37,18 @@ class GetBalance(PluginCommand):
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
-        # Get the third argument, which (if exists) is the user to query
-        balance = await get_balance(db_session, message.get_author().get_db_obj(db_session))
-        reply = "{} has a balance of {}₡".format(message.get_author().get_mention_text(), str(balance))
-        await message.get_channel().send_text(connection, reply)
+        # Get the third argument, which (if exists) is the mention text of the user to query
+        args = str(message).split(" ")
+        if len(args) >= 3:
+            c = message.get_channel()
+            user = await c.find_user_by_mention_text(args[2])
+        else:
+            user = message.get_author()
+
+        if user is not None:
+            balance = await get_balance(db_session, user.get_db_obj(db_session))
+            reply = "{} has a balance of {}₡".format(user.get_mention_text(), str(balance))
+            await message.get_channel().send_text(connection, reply)
 
 
 class KilroyPlugin(PluginApi):
