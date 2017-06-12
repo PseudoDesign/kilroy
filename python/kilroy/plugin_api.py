@@ -48,6 +48,15 @@ class PluginCommand:
     COMMAND_NAME = None
 
     @classmethod
+    def parse_args(cls, message):
+        raw_args = str(message).split(" ")[1:]
+        args = []
+        for a in raw_args:
+            if a != '':
+                args += [a]
+        return args
+
+    @classmethod
     async def execute_command(cls, message, connection, db_connection):
         raise NotImplementedError()
 

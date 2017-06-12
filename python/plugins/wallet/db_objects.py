@@ -10,5 +10,5 @@ class UserBalance(SqlBase, SqlObjectInterface):
     # sqlite doesn't support BigInteger auto-increment primary keys.  Map it to Integer, just for testing
     BigInt = BigInteger().with_variant(sqlite.INTEGER(), 'sqlite')
 
-    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True, )
+    user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
     balance = Column(BigInt, default=0)

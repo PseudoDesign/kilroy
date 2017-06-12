@@ -38,10 +38,10 @@ class GetBalance(PluginCommand):
     @classmethod
     async def execute_command(cls, message, connection, db_session):
         # Get the third argument, which (if exists) is the mention text of the user to query
-        args = str(message).split(" ")
-        if len(args) >= 3:
+        args = cls.parse_args(message)
+        if len(args) >= 2:
             c = message.get_channel()
-            user = await c.find_user_by_mention_text(args[2])
+            user = await c.find_user_by_mention_text(args[1])
         else:
             user = message.get_author()
 
@@ -57,27 +57,27 @@ class SendCredits(PluginCommand):
     @classmethod
     async def execute_command(cls, message, connection, db_session):
         # Get the third argument, which (if exists) is the mention text of the user to query
-        args = str(message).split(" ")
+        args = cls.parse_args(message)
         recipient = None
         value = 0
-        if len(args) >= 4:
+        if len(args) >= 3:
             c = message.get_channel()
-            recipient = await c.find_user_by_mention_text(args[2])
+            recipient = await c.find_user_by_mention_text(args[1])
             try:
-                value = int(args[3])
-            except:
+                value = int(args[2])
+            except ValueError:
                 value = -1
 
         if recipient is not None and value > 0:
             try:
                 await send_credits(db_session,
-                             message.get_author().get_db_obj(db_session),
-                             recipient.get_db_obj(db_session),
-                             value)
-                reply = "Successfully sent {}₡ to {}"
+                                   message.get_author().get_db_obj(db_session),
+                                   recipient.get_db_obj(db_session),
+                                   value)
+                reply = "{} successfully sent {}₡ to {}"
             except ValueError:
-                reply = "Unable to send {}₡ to {}"
-            reply = reply.format(value, recipient.get_mention_text())
+                reply = "{}: Unable to send {}₡ to {}"
+            reply = reply.format(message.get_author().get_mention_text(), value, recipient.get_mention_text())
             await message.get_channel().send_text(connection, reply)
 
 
