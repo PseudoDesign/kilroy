@@ -1,7 +1,7 @@
 import unittest
-from plugins import wallet
 from kilroy.db.user import DbUser
 from tests.test_db import TestDbConnection
+from plugins import wallet
 
 
 class TestWallet(TestDbConnection, unittest.TestCase):

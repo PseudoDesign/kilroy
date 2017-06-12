@@ -21,10 +21,10 @@ async def get_balance(db_session, db_user):
 async def send_credits(db_session, source_db_user, destination_db_user, value):
     """
     Transfer credits from one user to another.  Raises ValueError if the operation can't be completed.
-    :param db_session:
-    :param source_db_user:
+    :param db_session: The database session object to work on
+    :param source_db_user: The party initiating the transaction
     :type source_db_user: kilroy.DbUser
-    :param destination_db_user:
+    :param destination_db_user: The party receiving the transaction
     :type destination_db_user: kilroy.DbUser
     :param value: the number of credits to transfer
     """
@@ -37,6 +37,7 @@ class GetBalance(PluginCommand):
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
+        # Get the third argument, which (if exists) is the user to query
         balance = await get_balance(db_session, message.get_author().get_db_obj(db_session))
         reply = "{} has a balance of {}₡".format(message.get_author().get_mention_text(), str(balance))
         await message.get_channel().send_text(connection, reply)
