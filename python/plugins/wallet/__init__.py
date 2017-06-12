@@ -51,8 +51,39 @@ class GetBalance(PluginCommand):
             await message.get_channel().send_text(connection, reply)
 
 
+class SendCredits(PluginCommand):
+    COMMAND_NAME = 'send'
+
+    @classmethod
+    async def execute_command(cls, message, connection, db_session):
+        # Get the third argument, which (if exists) is the mention text of the user to query
+        args = str(message).split(" ")
+        recipient = None
+        value = 0
+        if len(args) >= 4:
+            c = message.get_channel()
+            recipient = await c.find_user_by_mention_text(args[2])
+            try:
+                value = int(args[3])
+            except:
+                value = -1
+
+        if recipient is not None and value > 0:
+            try:
+                await send_credits(db_session,
+                             message.get_author().get_db_obj(db_session),
+                             recipient.get_db_obj(db_session),
+                             value)
+                reply = "Successfully sent {}₡ to {}"
+            except ValueError:
+                reply = "Unable to send {}₡ to {}"
+            reply = reply.format(value, recipient.get_mention_text())
+            await message.get_channel().send_text(connection, reply)
+
+
 class KilroyPlugin(PluginApi):
     PLUGIN_NAME = plugin_name
     COMMANDS = [
         GetBalance,
+        SendCredits
     ]
