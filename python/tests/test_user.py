@@ -36,7 +36,7 @@ class TestUser(ConnectionTestHandler):
         async def go():
             await connection.await_until_connected()
             channel = connection.get_channel_from_kwargs(**self.TEST_CHANNEL_INFO)
-            users = channel.get_users()
+            users = await channel.get_users()
             self.found_self = False
             for user in users:
                 if user.get_mention_text() == self.TEST_MENTION_TEXT:
