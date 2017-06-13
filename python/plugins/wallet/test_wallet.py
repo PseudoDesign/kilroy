@@ -2,6 +2,7 @@ import unittest
 from kilroy.db.user import DbUser
 from tests.test_db import TestDbConnection
 from plugins import wallet
+from plugins.wallet.db_objects import Transaction
 
 
 class TestWallet(TestDbConnection, unittest.TestCase):
@@ -28,6 +29,10 @@ class TestWallet(TestDbConnection, unittest.TestCase):
         wallet.ops.send_credits(self._connection.session, user_1, user_2, 2)
         self.assertEqual(wallet.ops.get_balance(self._connection.session, user_1), 3)
         self.assertEqual(wallet.ops.get_balance(self._connection.session, user_2), 7)
+        t = Transaction.get_from_db_by_id(self._connection.session, 1)
+        self.assertEqual(t.source_user, self.TEST_USER_ID)
+        self.assertEqual(t.destination_user, self.TEST_USER_ID_2)
+        self.assertEqual(t.amount, 2)
 
         wallet.ops.set_balance(self._connection.session, user_1, 5)
         wallet.ops.set_balance(self._connection.session, user_2, 5)

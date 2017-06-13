@@ -9,6 +9,11 @@ def _get_or_create_balance(db_session, db_user):
     return bal
 
 
+def _create_transaction(db_session, source_user, dest_user, value):
+    t = Transaction(source_user=source_user.id, destination_user=dest_user.id, amount=value)
+    t.write_to_db(db_session)
+
+
 def set_balance(db_session, db_user, value):
     """
     Set's the user's balance to value
@@ -38,6 +43,7 @@ def send_credits(db_session, source_db_user, destination_db_user, value):
         raise ValueError("Source user does not have enough credits")
     set_balance(db_session, source_db_user, s.balance - value)
     set_balance(db_session, destination_db_user, d.balance + value)
+    _create_transaction(db_session, source_db_user, destination_db_user, value)
 
 
 def get_balance(db_session, db_user):

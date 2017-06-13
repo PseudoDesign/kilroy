@@ -10,7 +10,7 @@ install:
 
 .PHONY: uninstall
 uninstall:
-	sudo python3.5 -m pip uninstall kilroy -y
+	sudo rm -r /usr/local/lib/python3.5/dist-packages/kilroy*
 
 .PHONY: test
 test:
