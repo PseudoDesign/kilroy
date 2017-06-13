@@ -3,6 +3,7 @@ from kilroy.db.user import DbUser
 from tests.test_db import TestDbConnection
 from plugins import wallet
 from plugins.wallet.db_objects import Transaction
+import datetime
 
 
 class TestWallet(TestDbConnection, unittest.TestCase):
@@ -33,6 +34,8 @@ class TestWallet(TestDbConnection, unittest.TestCase):
         self.assertEqual(t.source_user, self.TEST_USER_ID)
         self.assertEqual(t.destination_user, self.TEST_USER_ID_2)
         self.assertEqual(t.amount, 2)
+        self.assertGreater(datetime.timedelta(seconds=2),
+                           datetime.datetime.now() - t.timestamp)
 
         wallet.ops.set_balance(self._connection.session, user_1, 5)
         wallet.ops.set_balance(self._connection.session, user_2, 5)
