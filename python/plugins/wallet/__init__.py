@@ -34,6 +34,7 @@ async def send_credits(db_session, source_db_user, destination_db_user, value):
 
 class GetBalance(PluginCommand):
     COMMAND_NAME = 'balance'
+    COMMAND_DESCRIPTION = "Query the balance of a user.  Leave the 'user' argument blank to query your own balance."
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
@@ -53,6 +54,7 @@ class GetBalance(PluginCommand):
 
 class SendCredits(PluginCommand):
     COMMAND_NAME = 'send'
+    COMMAND_DESCRIPTION = "Send credits to another user."
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
@@ -83,6 +85,7 @@ class SendCredits(PluginCommand):
 
 class KilroyPlugin(PluginApi):
     PLUGIN_NAME = plugin_name
+    PLUGIN_DESCRIPTION = "A currency manager.  Allows users to send, receive, and store credits."
     COMMANDS = [
         GetBalance,
         SendCredits
