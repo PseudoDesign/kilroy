@@ -6,6 +6,56 @@ import asyncio
 from plugins.wallet import KilroyPlugin as Wallet
 
 
+class PluginMessage:
+    def __init__(self, message, connection, db_session):
+        """
+        A set of helper functions for handling a kilroy message
+        :param message: the client-specific message
+        :param connection: the connection that generated this message
+        :param db_session: the database session used by plugins
+        """
+        self.message = message
+        self.channel = message.get_channel()
+        self.connection = connection
+        self.db_session = db_session
+        self.author = message.get_author()
+
+    async def send_reply(self, text):
+        """
+        Sends a reply to the channel that generated this message
+        :param text: The text to send
+        """
+        self.channel.send_text(self.connection, text)
+
+    @property
+    def args(self):
+        """
+        A list of the parameters that make up this message.
+        """
+        args = []
+        for s in str(self.message).split(" "):
+            if len(s) > 0:
+                args += [s]
+        return args
+
+    @property
+    def plugin_prefix(self):
+        """
+        The application and plugin prefix, i.e. args[0]
+        """
+        return self.args[0]
+
+    @property
+    def plugin_command(self):
+        """
+        A list containing command passed to the plugin and the additional arguments
+        """
+        return self.args[1:]
+
+    def __str__(self):
+        return str(self.message)
+
+
 class Kilroy:
     DB_LOCATION = 'sqlite:///:memory:'
 
@@ -68,8 +118,9 @@ class Kilroy:
             print("Message: " + str(message))
             command = str(message)[len(self.APP_PREFIX):]
             for p in self.plugins:
-                if p.is_handled(command):
-                    await p.message_handler(message, conn, self.db.session)
+                plugin_message = PluginMessage(message, conn, self.db.session)
+                if p.is_handled(plugin_message):
+                    await p.message_handler(plugin_message)
 
     def start_connections(self, additional_tasks=[]):
         tasks = additional_tasks

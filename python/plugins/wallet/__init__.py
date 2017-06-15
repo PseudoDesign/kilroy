@@ -42,7 +42,7 @@ class GetBalance(PluginCommand):
     @classmethod
     async def execute_command(cls, message, connection, db_session):
         # Get the third argument, which (if exists) is the mention text of the user to query
-        args = cls.parse_args(message)
+        args = message.plugin_command
         if len(args) >= 2:
             c = message.get_channel()
             user = await c.find_user_by_mention_text(args[1])
@@ -64,13 +64,13 @@ class SendCredits(PluginCommand):
     ]
 
     @classmethod
-    async def execute_command(cls, message, connection, db_session):
+    async def execute_command(cls, message):
         # Get the third argument, which (if exists) is the mention text of the user to query
-        args = cls.parse_args(message)
+        args = message.plugin_command
         recipient = None
         value = 0
         if len(args) >= 3:
-            c = message.get_channel()
+            c = message.channel
             recipient = await c.find_user_by_mention_text(args[1])
             try:
                 value = int(args[2])
@@ -79,15 +79,15 @@ class SendCredits(PluginCommand):
 
         if recipient is not None and value > 0:
             try:
-                await send_credits(db_session,
-                                   message.get_author().get_db_obj(db_session),
-                                   recipient.get_db_obj(db_session),
+                await send_credits(message.db_session,
+                                   message.author.get_db_obj(message.db_session),
+                                   recipient.get_db_obj(message.db_session),
                                    value)
                 reply = "{} successfully sent {}₡ to {}"
             except ValueError:
                 reply = "{}: Unable to send {}₡ to {}"
-            reply = reply.format(message.get_author().get_mention_text(), value, recipient.get_mention_text())
-            await message.get_channel().send_text(connection, reply)
+            reply = reply.format(message.author.get_mention_text(), value, recipient.get_mention_text())
+            await message.send_reply(reply)
 
 
 class KilroyPlugin(PluginApi):
