@@ -44,7 +44,7 @@ class GetBalance(PluginCommand):
         # Get the third argument, which (if exists) is the mention text of the user to query
         args = message.plugin_command
         if len(args) >= 2:
-            c = message.get_channel()
+            c = message.channel
             user = await c.find_user_by_mention_text(args[1])
         else:
             user = message.author
