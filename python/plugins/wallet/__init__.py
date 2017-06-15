@@ -58,6 +58,10 @@ class GetBalance(PluginCommand):
 class SendCredits(PluginCommand):
     COMMAND_NAME = 'send'
     COMMAND_DESCRIPTION = "Send credits to another user."
+    COMMAND_ARGS = [
+        ("recipient_user", "The user receiving your credits."),
+        ("quantity", "The number of credits to send.")
+    ]
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
