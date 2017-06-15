@@ -40,19 +40,19 @@ class GetBalance(PluginCommand):
     ]
 
     @classmethod
-    async def execute_command(cls, message, connection, db_session):
+    async def execute_command(cls, message):
         # Get the third argument, which (if exists) is the mention text of the user to query
         args = message.plugin_command
         if len(args) >= 2:
             c = message.get_channel()
             user = await c.find_user_by_mention_text(args[1])
         else:
-            user = message.get_author()
+            user = message.author
 
         if user is not None:
-            balance = await get_balance(db_session, user.get_db_obj(db_session))
+            balance = await get_balance(message.db_session, user.get_db_obj(message.db_session))
             reply = "{} has a balance of {}₡".format(user.get_mention_text(), str(balance))
-            await message.get_channel().send_text(connection, reply)
+            await message.send_reply(reply)
 
 
 class SendCredits(PluginCommand):

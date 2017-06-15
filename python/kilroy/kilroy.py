@@ -25,7 +25,7 @@ class PluginMessage:
         Sends a reply to the channel that generated this message
         :param text: The text to send
         """
-        self.channel.send_text(self.connection, text)
+        await self.channel.send_text(self.connection, text)
 
     @property
     def args(self):
