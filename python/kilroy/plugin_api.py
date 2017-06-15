@@ -58,8 +58,9 @@ class PluginApi:
         args = str(message).split(" ")[1:]
         command = args[0]
         if command == self.HELP_COMMAND:
-            if len(args) > 2 and args[1] in self._command_dict:
-                await self._command_dict[command].print_help(message, connection)
+            print(args)
+            if len(args) >= 2 and args[1] in self._command_dict:
+                await self._command_dict[args[1]].print_help(message, connection)
             else:
                 await self.print_help(message, connection)
         elif command in self._command_dict:
@@ -72,9 +73,23 @@ class PluginCommand:
     # A short description of this command
     COMMAND_DESCRIPTION = None
     # A description of the arguments passed to this command, in order
-    COMMAND_ARGS = {
-        # "test_arg": "string - a test argument"
-    }
+    COMMAND_ARGS = [
+        # ("test_arg", "string - a test argument")
+    ]
+
+    @classmethod
+    async def print_help(cls, message, connection):
+        s = ""
+        s += "{} -- {}\n\n".format(cls.COMMAND_NAME, cls.COMMAND_DESCRIPTION)
+        u = ""
+        if len(cls.COMMAND_ARGS) > 0:
+            s += "Arguments:\n"
+            for c in cls.COMMAND_ARGS:
+                s += "{} -- {}\n".format(c[0], c[1])
+                u += "{} ".format(c[0].upper())
+        s += "\nUsage: {} {} ".format(str(message).split(" ")[0], cls.COMMAND_NAME)
+        s += u
+        await message.get_channel().send_text(connection, s)
 
     @classmethod
     def parse_args(cls, message):

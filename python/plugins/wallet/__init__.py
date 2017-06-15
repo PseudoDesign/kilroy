@@ -34,7 +34,10 @@ async def send_credits(db_session, source_db_user, destination_db_user, value):
 
 class GetBalance(PluginCommand):
     COMMAND_NAME = 'balance'
-    COMMAND_DESCRIPTION = "Query the balance of a user.  Leave the 'user' argument blank to query your own balance."
+    COMMAND_DESCRIPTION = "Query the balance of a user."
+    COMMAND_ARGS = [
+        ("user", "Optional.  Get this user's balance. Leave blank to get your own balance.")
+    ]
 
     @classmethod
     async def execute_command(cls, message, connection, db_session):
