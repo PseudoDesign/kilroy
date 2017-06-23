@@ -90,6 +90,7 @@ class TestPredictOps(TestDbConnection, unittest.TestCase):
         )
         self.assertEqual(t.quantity, 25)
         self.assertEqual(t.buy_order_id, self.test_buy_order.id)
+        self.assertEqual(self.test_buy_order.filled_quantity, 25)
 
 
 class TestPluginApi:

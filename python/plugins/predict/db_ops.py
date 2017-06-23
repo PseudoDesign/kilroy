@@ -46,5 +46,7 @@ def fill_buy_order(db_session, buy_order, quantity, user_id):
         buy_order_id=buy_order.id,
         quantity=quantity
     )
+    buy_order.filled_quantity += quantity
+    buy_order.write_to_db(db_session)
     t.write_to_db(db_session)
     return t
