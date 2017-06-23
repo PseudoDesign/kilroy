@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timedelta
 from tests.test_db import TestDbConnection
-from plugins.predict.ops import create_new_market, create_buy_order, fill_buy_order
+from plugins.predict.db_ops import create_new_market, create_buy_order, fill_buy_order
 from plugins.predict.db_objects import Market, BuyOrder, Transaction
 from plugins.predict import YES_OPTION
 
@@ -70,8 +70,13 @@ class TestPredictOps(TestDbConnection, unittest.TestCase):
         self.assertEqual(b.filled_quantity, 0)
 
     def test_fill_buy_order(self):
-        # with self.assertRaises(ValueError):
-        #    pass
+        with self.assertRaises(ValueError):
+            fill_buy_order(
+                self._connection.session,
+                buy_order=self.test_buy_order,
+                quantity=60,
+                user_id=self.PURCHASER_ID,
+            )
         fill_buy_order(
             self._connection.session,
             buy_order=self.test_buy_order,
