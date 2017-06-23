@@ -1,0 +1,2 @@
+YES_OPTION = True
+NO_OPTION = False
