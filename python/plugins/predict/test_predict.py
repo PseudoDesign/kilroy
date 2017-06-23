@@ -6,7 +6,7 @@ from plugins.predict.db_objects import Market, BuyOrder, Transaction
 from plugins.predict import YES_OPTION
 
 
-class TestPredictOps(TestDbConnection, unittest.TestCase):
+class TestPredictDbOps(TestDbConnection, unittest.TestCase):
     TITLE = "Is this a test market?"
     YES_OPTION = "This is a test market"
     NO_OPTION = "This is not a test market"
@@ -93,5 +93,5 @@ class TestPredictOps(TestDbConnection, unittest.TestCase):
         self.assertEqual(self.test_buy_order.filled_quantity, 25)
 
 
-class TestPluginApi:
+class TestPredictKilroyCommands:
     pass
