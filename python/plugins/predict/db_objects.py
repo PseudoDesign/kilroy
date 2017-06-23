@@ -29,3 +29,19 @@ class BuyOrder(SqlBase, SqlObjectInterface):
     price = Column(SmallInteger, nullable=False)
     expiration = Column(DateTime, nullable=False)
     user_id = Column(BigInt, ForeignKey('user.id'), nullable=False)
+    quantity = Column(SmallInteger, nullable=False)
+    filled_quantity = Column(SmallInteger, default=0, nullable=False)
+
+    @property
+    def remaining_quantity(self):
+        return self.quantity - self.filled_quantity
+
+
+class Transaction(SqlBase, SqlObjectInterface):
+    __tablename__ = "predict_transaction"
+
+    id = Column(BigInt, primary_key=True, autoincrement=True)
+    yes_holder_id = Column(BigInt, ForeignKey('user.id'), nullable=False)
+    no_holder_id = Column(BigInt, ForeignKey('user.id'), nullable=False)
+    buy_order_id = Column(BigInt, ForeignKey('predict_buy_order.id'), nullable=False)
+    quantity = Column(SmallInteger, nullable=False)
