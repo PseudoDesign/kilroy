@@ -47,14 +47,10 @@ class TestPredictOps(TestDbConnection, unittest.TestCase):
         self.assertEqual(b.price, 75)
         self.assertEqual(b.user_id, self.FACILITATOR_ID)
 
-
     def test_fill_buy_order(self):
         pass
 
     def test_query_open_orders(self):
-        pass
-
-    def test_wallet_access(self):
         pass
 
 

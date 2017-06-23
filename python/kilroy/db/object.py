@@ -18,3 +18,17 @@ class SqlObjectInterface:
     @classmethod
     def get_from_db_by_id(cls, sql_session, my_id):
         return cls.get_from_db_by_attr(sql_session, 'id', my_id)
+
+    @classmethod
+    def get_or_create(cls, sql_session, **kwargs):
+        m = cls.get_from_db_by_kwargs(
+            sql_session,
+            **kwargs
+        )
+        if m is None:
+            m = cls(
+                **kwargs
+            )
+            m.write_to_db(sql_session)
+        return m
+
