@@ -18,3 +18,20 @@ sudo apt-get update
 sudo apt-get install python3.5
 sudo python3.5 -m pip install squalchemy aioconsole pyyaml
 sudo python3.5 -m pip install -U discord.py
+
+
+#### Create a bot and invite it to your server
+See [here](https://stackoverflow.com/questions/37689289/joining-a-server-with-the-discord-python-api)
+
+#### Create a config.yaml file
+connections:
+  - client: discord
+    client_oauth_token: YOUR_CLIENT_OAUTH_TOKEN
+plugins:
+  - name: hello_kilroy
+  - name: wallet
+
+#### Install the application
+Navigate to ~/kilroy/python
+Run `make install`
+Run `kilroy console YOUR_CONFIG_FILE_HERE`
