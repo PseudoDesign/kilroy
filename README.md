@@ -14,11 +14,12 @@
 3. Execute `vagrant ssh`
 
 #### Install necessary tools
+```bash
 sudo apt-get update
 sudo apt-get install python3.5
 sudo python3.5 -m pip install squalchemy aioconsole pyyaml
 sudo python3.5 -m pip install -U discord.py
-
+```
 
 #### Create a bot and invite it to your server
 See [here](https://stackoverflow.com/questions/37689289/joining-a-server-with-the-discord-python-api)
