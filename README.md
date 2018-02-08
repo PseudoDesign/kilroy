@@ -11,3 +11,10 @@
 #### Start up the VM
 1. Navigate your command prompt to the "vagrant" directory
 2. Execute `vagrant up`
+3. Execute `vagrant ssh`
+
+#### Install necessary tools
+sudo apt-get update
+sudo apt-get install python3.5
+sudo python3.5 -m pip install squalchemy aioconsole pyyaml
+sudo python3.5 -m pip install -U discord.py

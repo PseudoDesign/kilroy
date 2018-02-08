@@ -24,8 +24,8 @@ class TestKilroy(unittest.TestCase):
 
         async def go():
             await k.connections[0].await_until_connected()
-            test_channel = k.connections[0].get_channel_from_kwargs(server_id=288110719428460555,
-                                                                    channel_id=288123942722600960)
+            test_channel = k.connections[0].get_channel_from_kwargs(server_id=410949404590080000,
+                                                                    channel_id=410949404590080002)
             await test_channel.send_text(k.connections[0], "!k.test_plugin herp derp")
             await asyncio.sleep(3)
             await k.end_connections()
@@ -45,8 +45,8 @@ class TestKilroy(unittest.TestCase):
 
         async def go():
             await k.connections[0].await_until_connected()
-            test_channel = k.connections[0].get_channel_from_kwargs(server_id=288110719428460555,
-                                                                    channel_id=288123942722600960)
+            test_channel = k.connections[0].get_channel_from_kwargs(server_id=410949404590080000,
+                                                                    channel_id=410949404590080002)
             await test_channel.send_text(k.connections[0], "!k.test_plugin test_command derp")
             await asyncio.sleep(3)
             await k.end_connections()

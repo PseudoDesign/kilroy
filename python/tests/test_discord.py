@@ -9,8 +9,8 @@ from kilroy.connections import DiscordConnection, DiscordMessage, DiscordChannel
 class DiscordTestInfo:
     CONNECTION_CLASS = DiscordConnection
     TEST_CHANNEL_INFO = {
-        "server_id": 288110719428460555,
-        "channel_id": 288123942722600960,
+        "server_id": 410949404590080000,
+        "channel_id": 410949404590080002,
     }
 
 

@@ -16,7 +16,7 @@ def run_with_console(*args):
             print(strings.CONSOLE_LICENSE_NOTICE)
         while i != "quit":
             i = await ainput("Enter a command: ")
-            i = i[:-1].lower()
+            i = i.lower()
             if i in commands:
                 if commands[i] is not None:
                     await commands[i]()
