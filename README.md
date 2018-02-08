@@ -24,12 +24,14 @@ sudo python3.5 -m pip install -U discord.py
 See [here](https://stackoverflow.com/questions/37689289/joining-a-server-with-the-discord-python-api)
 
 #### Create a config.yaml file
+```yaml
 connections:
   - client: discord
     client_oauth_token: YOUR_CLIENT_OAUTH_TOKEN
 plugins:
   - name: hello_kilroy
   - name: wallet
+```
 
 #### Install the application
 Navigate to ~/kilroy/python
