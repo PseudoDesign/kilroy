@@ -5,6 +5,8 @@ import asyncio
 
 from plugins.wallet import KilroyPlugin as Wallet
 
+from plugins.bitcoin import KilroyPlugin as Bitcoin
+
 
 class PluginMessage:
     def __init__(self, message, connection, db_session):
@@ -65,7 +67,8 @@ class Kilroy:
 
     __AVAILABLE_PLUGINS = [
         HelloKilroy,
-        Wallet
+        Wallet,
+        Bitcoin
     ]
 
     APP_PREFIX = "!k."
