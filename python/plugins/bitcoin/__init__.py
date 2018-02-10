@@ -20,9 +20,27 @@ class GetPrice(PluginCommand):
     @classmethod
     async def execute_command(cls, message):
         # Set a reply with the current price of Bitcoin
+        args = message.plugin_command
+
+        currency = 'USD'
         reply = fetch_price()
-        usd = reply['USD']
-        await message.send_reply(str(usd))
+        if len(args) >= 2:
+            if args[1] in reply:
+                currency = args[1]
+            else:
+                await message.send_reply("Currency {0} is not supported".format(args[1]))
+                return
+        response = "```\n" \
+                   "Bitcoin Price in {0}:" \
+                   "\n\n" \
+                   "Last: {1} {2}\n" \
+                   "Bid: {1} {3}\n" \
+                   "Ask: {1} {4}\n" \
+                   "```"
+        reply = reply[currency]
+        response = response.format(currency, reply['symbol'], reply['last'], reply['buy'], reply['sell'])
+        await message.send_reply(response)
+
 
 
 class KilroyPlugin(PluginApi):
